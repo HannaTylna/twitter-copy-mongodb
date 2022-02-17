@@ -1,21 +1,24 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const User = require("../models/user")
+const User = require("../models/user");
+const bcrypt = require("bcrypt");
 
 //login handle
 router.get('/login',(req, res) => {
-    res.render('login');
+    res.render("login");
 });
 
-router.get('/register',(req, res) => {
-    res.render('register')
+router.get("/register",(req, res) => {
+    res.render("register");
 });
 
 //Register handle
-router.post('/register',(req, res) => {
+router.post("/register",(req, res) => {
     const {name, email, password, password2} = req.body;
     let errors = [];
-    console.log("Name: " + name+ " email: " + email+ " password: " + password);
+
+    console.log("Name: " + name + " email: " + email + " password: " + password);
+    
     if(!name || !email || !password || !password2) {
         errors.push({msg : "Please fill in all fields"})
     };
@@ -39,7 +42,7 @@ router.post('/register',(req, res) => {
         password2 : password2})
     } else {
         //validation passed
-        User.findOne({email : email}).exec((err,user)=>{
+        User.findOne({email : email}).exec( (err,user) => {
             console.log(user);   
             if(user) {
             errors.push({msg: "Email already registered"});
@@ -51,6 +54,22 @@ router.post('/register',(req, res) => {
                 email : email,
                 password : password
             });
+            bcrypt.genSalt(10, (err,salt) => 
+            bcrypt.hash( newUser.password, salt,
+                (err,hash) => {
+                    if(err) throw err;
+                        //save pass to hash
+                        newUser.password = hash;
+                    //save user
+                    newUser.save()
+                    .then((value) => {
+                        console.log(value);
+                        req.flash("success_msg", "Successfully registered!")
+                        res.redirect('/users/login');
+                    })
+                    .catch(value => console.log(value));
+                }
+            ));
         }})
     }
 });

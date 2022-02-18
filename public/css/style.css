@@ -8,7 +8,7 @@
 
 html, body {
     height: 100%;
-    font-family: "Times New Roman", Times, serif;
+    font-family: 'Catamaran', sans-serif;
     background-color: #000;
     color: #fff;
 }
@@ -23,9 +23,8 @@ html, body {
     display: flex;
 }
 .card__img {
-    flex: 0 0 50%;
+    flex: 1 1 60%;
     position: relative;
-
 }
 .card__img img{
     width: 100%;
@@ -36,6 +35,7 @@ html, body {
 }
 
 .card__text {
+    flex: 1 1 40%;
     text-align: center;
     align-items: center;
     margin: 0 auto;

@@ -6,6 +6,8 @@ const expressEjsLayout = require("express-ejs-layouts");
 const flash = require("connect-flash"); // a flash message (success message)
 const session = require("express-session");
 
+const PORT = 3000;
+
 //mongoose
 mongoose
     .connect("mongodb://localhost/backend1",
@@ -13,9 +15,14 @@ mongoose
     )
     .then(() => console.log("connected,,"))
     .catch((err)=> console.log(err));
-//EJS
-app.set("view engine","ejs");
+
+// Static Files
+app.use(express.static(__dirname + "/public"));
+
+// Set Templating Engine
 app.use(expressEjsLayout);
+app.set("layout", "./layouts/layout");
+app.set("view engine", "ejs");
 
 //BodyParser
 app.use(express.urlencoded({extended : false}));
@@ -41,7 +48,6 @@ app.use((req, res, next) => {
 app.use('/',require('./routes/index'));
 app.use('/users',require('./routes/users'));
 
-const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`Started listening on port ${PORT}`);
 });

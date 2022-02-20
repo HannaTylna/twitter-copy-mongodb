@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const expressEjsLayout = require("express-ejs-layouts");
 const flash = require("connect-flash"); // a flash message (success message)
 const session = require("express-session");
+const passport = require("./config/passport"); // authentication middleware 
 
 const PORT = 3000;
 
@@ -33,6 +34,9 @@ app.use(session({
     resave: true, 
     saveUninitialized: true
 }));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 //use flash
 app.use(flash());

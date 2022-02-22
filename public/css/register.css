@@ -1,0 +1,78 @@
+.form__register{
+    width: 35%;
+    margin: 100px auto;
+    padding: 20px;
+    border: 2px double #fff;
+    border-radius: 20px;
+    box-shadow: 5px 5px 5px #fff;
+}
+.form__register h1{
+    margin: 20px;
+    text-align: center;
+    text-transform: uppercase;
+}
+.form__field{
+    margin: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+.form__label{
+    font-size: 20px;
+    font-weight: bold;
+}
+.form__input{
+    font-size: 16px;
+    padding: 5px;
+    border-radius: 10px;
+}
+.form__input:hover{
+    background-color: #DCDCDC;
+}
+.form__btn{
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0 auto;
+    text-transform: uppercase;
+    padding: 10px;
+    border-radius: 10px;
+}
+.form__btn:hover{
+    background-color: #808080;
+    color: #fff;
+}
+.form__register p{
+    text-align: end;
+    font-size: 18px;
+}
+.form__link{
+    text-decoration: none;
+    color: #808080;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 20px;
+}
+.form__link:hover{
+    color: #fff;
+    border-bottom: 1px solid #fff;
+}
+
+@media (max-width: 1200px){
+    .form__register{
+        width: 45%;
+    }
+}
+@media (max-width: 992px){
+    .form__register{
+        width: 60%;
+    }
+}
+@media (max-width: 768px){
+    .form__register{
+        width: 75%;
+    }
+}
+@media (max-width: 576px){
+    .form__register{
+        width: 90%;
+    }
+}

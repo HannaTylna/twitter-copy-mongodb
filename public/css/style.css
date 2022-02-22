@@ -59,3 +59,24 @@ html, body {
 .card__link:hover {
     background-color: #499edf;
 }
+
+/* @media (max-width: 576px){
+    max-width: 540px;
+};
+@media (max-width: 768px){
+    max-width: 720px;
+}; */
+@media (max-width: 992px){
+    .container{
+        max-width: 960px;
+    }
+    .card{
+        display: block;
+    }
+    .card__text{
+        padding-bottom: 150px;
+    }
+};
+/* @media (max-width: 1200px){
+    max-width: 1175px;
+}; */

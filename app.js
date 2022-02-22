@@ -1,13 +1,16 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const router = express.Router();
 const app = express();
-const mongoose = require("mongoose");
 const expressEjsLayout = require("express-ejs-layouts");
 const flash = require("connect-flash"); // a flash message (success message)
 const session = require("express-session");
-const passport = require("./config/passport"); // authentication middleware 
+const passport = require("passport"); // authentication middleware 
 
 const PORT = 3000;
+
+// passport configuration
+require("./config/passport")(passport);
 
 //mongoose
 mongoose
@@ -21,10 +24,9 @@ mongoose
 app.use(express.static(__dirname + "/public"));
 
 // Set Templating Engine
-app.use(expressEjsLayout);
 app.set("layout", "./layouts/layout");
 app.set("view engine", "ejs");
-
+app.use(expressEjsLayout);
 //BodyParser
 app.use(express.urlencoded({extended : false}));
 
@@ -34,13 +36,10 @@ app.use(session({
     resave: true, 
     saveUninitialized: true
 }));
-
 app.use(passport.initialize());
 app.use(passport.session());
-
 //use flash
 app.use(flash());
-
 app.use((req, res, next) => {
     res.locals.success_msg = req.flash("success_msg");
     res.locals.error_msg = req.flash("error_msg");

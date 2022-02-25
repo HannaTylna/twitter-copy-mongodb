@@ -91,5 +91,20 @@ router.get('/logout',(req, res) => {
     req.flash("success_msg", "Successfully logged out!");
     res.redirect("/users/login");
 });
+// router.delete('/logout', (req, res) => {
+//     if (req.session) {
+//         req.session.destroy(err => {
+//             if (err) {
+//                 res.status(400).send('Unable to log out')
+//             } else {
+//                 req.logout();
+//                 req.flash("success_msg", "Successfully logged out!");
+//                 res.redirect("/users/login");
+//             }
+//         });
+//     } else {
+//         res.end()
+//     }
+// })
 
 module.exports  = router;

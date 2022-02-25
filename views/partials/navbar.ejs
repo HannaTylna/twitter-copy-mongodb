@@ -1,0 +1,32 @@
+<header class="header">
+    <div class="container">
+        <div class="header__body">
+            <!--Det behövs för att skapa länkar-->
+            <a href="/userprofile" class="header__logo">
+                <!--Det behövs för att visa bilder på webbsidan-->
+                <img 
+                    class="header__image" 
+                    alt="A company logo" 
+                    src="/images/icons8-chat-100.png"
+                />
+            </a>
+            <div class="header__burger">
+                <!--Taggen behövs för att definiera 'inline' elementen. Man kan sätta sin egna stil (css stil) för span taggen-->
+                <span></span>
+            </div>
+            <!--Taggen <nav> definierar webbsidansnavigering.-->
+            <nav class="header__menu">
+                <!--Taggen <ul> skapar en punktlista.-->
+                <ul class="header__list">
+                    <!--Taggen <li> definierar ett enda listobjekt.-->
+                    <li class="header__item">
+                        <a href="/register" class="header__link">Register</a>
+                    </li>
+                    <li class="header__item">
+                        <a href="/users/login" class="header__link">Login</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</header>

@@ -18,7 +18,69 @@ html, body {
 }
 .container {
     max-width: 1440px;
-    margin: 50px auto 0px auto;
+    margin: 0px auto 0px auto; /* 50px top */
+}
+.header {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    background-color: #499edf;
+}
+
+.header:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+}
+
+.header__body {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    height: 80px;
+    align-items: center;
+}
+
+.header__list {
+    display: flex;
+    position: relative;
+    z-index: 2;
+}
+
+.header__list li{
+    list-style: none;
+    margin: 0px 50px 0px 30px;
+}
+
+.header__link {
+    color: #000;
+    text-transform: uppercase;
+    font-size: 18px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+
+.header__link:hover {
+    border-bottom: 4px solid #000;
+}
+
+.header__logo {
+    margin-left: 15px;
+    flex: 0 0 50px;
+    position: relative;
+    z-index: 3;
+}
+
+.header__image {
+    width: 60px;
+    border-radius: 50%;
 }
 
 /* @media (max-width: 576px){

@@ -35,6 +35,6 @@
     color:#000;
     text-transform: uppercase;
 }
-.card__link:hover {
+.card__link:hover { 
     background-color: #499edf;
 }

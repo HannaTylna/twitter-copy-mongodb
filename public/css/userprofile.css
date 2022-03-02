@@ -1,0 +1,18 @@
+.main {
+    display: flex;
+}
+.main__leftcolumn, .main__rightcolumn{
+    margin-top: 100px;
+    width: 25%;
+}
+.main__centercolumn{
+    padding-top: 100px;
+    width: 50%;
+    border-left: 2px solid #808080;
+    border-right: 2px solid #808080;
+}
+
+.main__rightcolumn{
+    padding-right: 30px;
+    text-align: right;
+}

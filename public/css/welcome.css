@@ -38,3 +38,11 @@
 .card__link:hover { 
     background-color: #499edf;
 }
+@media (max-width: 992px){
+    .card{
+        display: block;
+    }
+    .card__text{
+        padding-bottom: 150px;
+    }
+};

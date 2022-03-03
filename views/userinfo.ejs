@@ -1,5 +1,8 @@
-<div class="main">
-    <h1>User Profile</h1>
-    <p>Welcome <%= user.name %> </p>
-    <a href="/users/logout">Logout</a>
+<div class="info">
+    <h1 class="info__title">User Profile</h1>
+    <p class="info__name">Welcome, <%= user.name %>!</p>
+    <div class="info__link">
+        <a href="/users/logout">Update</a>
+        <a href="/users/logout">Logout</a>
+    </div>
 </div>

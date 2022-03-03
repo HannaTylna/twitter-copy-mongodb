@@ -4,12 +4,12 @@ const bcrypt = require("bcrypt");
 
 module.exports = function(passport){
     passport.use(
-        new LocalStrategy({usernameField: "email"},(email, password, done)=>{
+        new LocalStrategy({usernameField: "name"},(name, password, done)=>{
             //match user
-            User.findOne({email:email})
+            User.findOne({name: name})
             .then((user) => {
                 if(!user){
-                    return done(null, false, {message: "Email not registered"});
+                    return done(null, false, {message: "There is no user!"});
                 }
                 //math passwords
                 bcrypt.compare(password, user.password, (err,isMatch)=>{

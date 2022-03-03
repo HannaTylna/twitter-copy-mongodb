@@ -10,15 +10,15 @@ const passport = require("passport"); // authentication middleware
 const PORT = 3000;
 
 // passport configuration
-require("./config/passport")(passport);
+require("./config/passport")(passport)
 
 //mongoose
 mongoose
     .connect("mongodb://localhost/backend1",
         { useNewUrlParser: true, useUnifiedTopology : true}
     )
-    .then(() => console.log("connected,,"))
-    .catch((err)=> console.log(err));
+    .then(() => console.log("MongoDB Connection Succeeded."))
+    .catch((err)=> console.log("Error in DB connection : " + err));
 
 // Static Files
 app.use(express.static(__dirname + "/public"));

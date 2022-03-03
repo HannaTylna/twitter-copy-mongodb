@@ -1,6 +1,7 @@
 @import url("welcome.css");
 @import url("register.css");
 @import url("userprofile.css");
+@import url("userinfo.css");
 
 *, *:before, *:after {
     padding: 0;

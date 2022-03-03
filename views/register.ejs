@@ -5,7 +5,7 @@
 
     <form action="/users/register" method="POST">
         <div class="form__field">
-            <label class="form__label" for="name">Name: </label>
+            <label class="form__label" for="name">Name: <span style="color: red">*</span>  </label>
             <input 
                 class="form__input"
                 type = "name" 
@@ -25,7 +25,7 @@
             />
         </div>
         <div class="form__field">
-            <label class="form__label" for="password">Password: </label>
+            <label class="form__label" for="password">Password: <span style="color: red">*</span> </label>
             <input 
                 class="form__input"
                 type = "password" 
@@ -35,7 +35,7 @@
             />
         </div>
         <div class="form__field" for="password2">
-            <label class="form__label">Confirm Password: </label>
+            <label class="form__label">Confirm Password: <span style="color: red">*</span>  </label>
             <input 
                 class="form__input"
                 type = "password" 

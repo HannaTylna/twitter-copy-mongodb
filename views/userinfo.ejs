@@ -1,8 +1,15 @@
 <div class="info">
     <h1 class="info__title">User Profile</h1>
-    <p class="info__name">Welcome, <%= user.name %>!</p>
+    <p class="info__name">Name: <%= user.name %></p>
+    <p class="info__email">Email: 
+        <% if (user.email) { %>
+            <%= user.email %>
+        <% } else { %>
+            <%= "" %>
+        <% } %>
+    </p>
     <div class="info__link">
-        <a href="/users/logout">Update</a>
+        <a href="/users/update">Update</a>
         <a href="/users/logout">Logout</a>
     </div>
 </div>

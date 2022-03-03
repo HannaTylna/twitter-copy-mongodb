@@ -2,9 +2,22 @@
     margin-top: 100px;
     text-align: center;
 }
-.info__title, .info__name, .info__link {
+.info__title, .info__name, .info__email {
     padding: 20px;
     border-bottom: 1px solid #808080;
     width: 70%;
     margin: 0 auto;
+}
+.info__link{
+    padding: 20px;
+    margin: 0 auto;
+}
+.info__link a{
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0 auto;
+    text-transform: uppercase;
+    padding: 10px;
+    border-radius: 10px;
 }

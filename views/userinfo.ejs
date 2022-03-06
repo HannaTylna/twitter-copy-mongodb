@@ -1,15 +1,30 @@
 <div class="info">
-    <h1 class="info__title">User Profile</h1>
-    <p class="info__name">Name: <%= user.name %></p>
-    <p class="info__email">Email: 
-        <% if (user.email) { %>
-            <%= user.email %>
-        <% } else { %>
-            <%= "" %>
-        <% } %>
-    </p>
+    <div class="col-12">
+        <h1>User Profile</h1>
+        <p>Name: <%= user.name %></p>
+        <p>Email: 
+            <% if (user.email) { %>
+                <%= user.email %>
+            <% } else { %>
+                <%= "" %>
+            <% } %>
+        </p>
+        <img src="../public/images/favicon-32x32.png" alt="profileimage"class="img-fluid">
+    </div>
+    
+    <div class="col-12">
+        <h1>Update profile</h1>
+
+        <form method="POST" action="/userprofile" enctype="multipart/form-data" >
+            <label for="image">Upload a portrait</label>
+            <input type="file" name="image"><br />
+            <input type="text" name="name" placeholder="Name">
+            <input type="email" name="email" placeholder="Email">
+            <input type="submit" value="save">
+            
+        </form>
+    </div>
     <div class="info__link">
-        <a href="/users/update">Update</a>
         <a href="/users/logout">Logout</a>
     </div>
 </div>

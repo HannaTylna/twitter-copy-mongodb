@@ -20,10 +20,10 @@ router.get("/userprofile", ensureAuthenticated, (req, res) => {
 });
 
 router.get("/userinfo", ensureAuthenticated, (req, res) => {
+    //res.send("HEJ!")
     res.render("userinfo", { 
         // send the user information data to the web page
         user: req.user
-    });
+    })
 })
-
 module.exports = router;

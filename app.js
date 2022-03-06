@@ -50,6 +50,7 @@ app.use((req, res, next) => {
 //Routes
 app.use('/',require('./routes/index'));
 app.use('/users',require('./routes/users'));
+//app.use("/userinfo", require("./routes/profile"));
 
 app.listen(PORT, () => {
     console.log(`Started listening on port ${PORT}`);

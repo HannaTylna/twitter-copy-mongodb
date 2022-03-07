@@ -15,16 +15,6 @@
             />
         </div>
         <div class="form__field">
-            <label class="form__label" for="email">Email: </label>
-            <input 
-                class="form__input"
-                type = "email" 
-                name = "email"
-                placeholder = "Enter email"
-                value = "<%= typeof email != 'undefined' ? email : '' %>"
-            />
-        </div>
-        <div class="form__field">
             <label class="form__label" for="password">Password: <span style="color: red">*</span> </label>
             <input 
                 class="form__input"
@@ -34,14 +24,35 @@
                 value = "<%= typeof password != 'undefined' ? password : '' %>"
             />
         </div>
-        <div class="form__field" for="password2">
-            <label class="form__label">Confirm Password: <span style="color: red">*</span>  </label>
+        <div class="form__field">
+            <label class="form__label" for="email">Email: </label>
             <input 
                 class="form__input"
-                type = "password" 
-                name = "password2"
-                placeholder = "Confirm your password"
-                value = "<%= typeof password2 != 'undefined' ? password2 : '' %>"
+                type = "email" 
+                name = "email"
+                placeholder = "Enter email"
+                value = "<%= typeof email != 'undefined' ? email : '' %>"
+            />
+        </div>
+        <div class="form__field" for="firstName">
+            <label class="form__label">First Name:</label>
+            <input 
+                class="form__input"
+                type = "firstName" 
+                name = "firstName"
+                placeholder = "Enter your firstName"
+                value = "<%= typeof firstName != 'undefined' ? firstName : '' %>"
+            />
+        </div>
+
+        <div class="form__field">
+            <label class="form__label" for="lastName">Last Name:</label>
+            <input 
+                class="form__input"
+                type = "lastName" 
+                name = "lastName"
+                placeholder = "Enter your lastName"
+                value = "<%= typeof lastName != 'undefined' ? lastName : '' %>"
             />
         </div>
         <div class="form__field">

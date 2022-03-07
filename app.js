@@ -7,6 +7,7 @@ const flash = require("connect-flash"); // a flash message (success message)
 const session = require("express-session");
 const passport = require("passport"); // authentication middleware 
 
+
 const PORT = 3000;
 
 // passport configuration
@@ -20,8 +21,13 @@ mongoose
     .then(() => console.log("MongoDB Connection Succeeded."))
     .catch((err)=> console.log("Error in DB connection : " + err));
 
+
+
 // Static Files
-app.use(express.static(__dirname + "/public"));
+//app.use(express.static(__dirname + "/public"));
+app.use(express.static("public"));
+app.use(express.static("public/images"))
+
 
 // Set Templating Engine
 app.set("layout", "./layouts/layout");

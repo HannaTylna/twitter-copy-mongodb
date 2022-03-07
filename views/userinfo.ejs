@@ -1,19 +1,20 @@
+
 <div class="info">
-    <div>
-        <h1>User Profile</h1>
-        <img src="/<%= user.img %>" alt="A user photo" height="100px">
-        <p><span style="font-weight: bold; color: red">NAME: </span><%= user.name %></p>
-        <p><span>EMAIL: </span> <%= user.email %></p>
-        <p><span>FIRST NAME: </span> <%= user.firstName %></p>
-        <p><span>LAST NAME: </span> <%= user.lastName %></p>
-        
+    <div class="info__back">
+        <a href="/home" class="form__link  info__link">Back</a>
     </div>
     
-    <form action="/home">
-        <input action="/home" type="submit" value="Back">
-    </form>
-
-    <h1>Edit user profile</h1>
+    <div class="info__user">
+        <h1>User Profile</h1>
+        <img src="/<%= user.img %>" alt="A user photo" height="100px">
+        <p><span style="font-weight: bold; color: #808080">NAME: </span><%= user.name %></p>
+        <p><span style="font-weight: bold; color: #808080">EMAIL: </span> <%= user.email %></p>
+        <p><span style="font-weight: bold; color: #808080">FIRST NAME: </span> <%= user.firstName %></p>
+        <p><span style="font-weight: bold; color: #808080">LAST NAME: </span> <%= user.lastName %></p>
+        
+    </div>
+    <div class="info__update">
+        <h1>Edit user profile</h1>
 
         <h2>Photo upload</h2>
         <form action="/upload" method="POST" enctype="multipart/form-data">
@@ -29,11 +30,9 @@
             Email: <input type="email" name="email"><br/>
             <br/>
             <button type="submit">Edit user</button>
+            <div class="info__logout" >
+                <a href="/users/logout" class="form__link  info__link">Logout</a>
+            </div>
         </form>
-
-
-        
-    <div class="info__link">
-        <a href="/users/logout">Logout</a>
     </div>
 </div>

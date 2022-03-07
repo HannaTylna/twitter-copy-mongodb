@@ -14,25 +14,21 @@ router.get("/register",(req,res)=>{
 });
 
 //Register handle
-router.post("/login",(req,res,next)=>{
+router.post("/login",
     passport.authenticate("local",{
-        successRedirect : "/userprofile",
+        successRedirect : "/home",
         failureRedirect: "/users/login",
         failureFlash : true
-    })(req,res,next)
-});
+    })
+);
 
   //register post handle
 router.post("/register",(req,res)=>{
-    const {name, email, password, password2} = req.body;
+    const {name, email, password, firstName, lastName} = req.body;
     let errors = [];
     console.log(" Name " + name + " pass:" + password);
-    if(!name || !password || !password2) {
+    if(!name || !password) {
         errors.push({msg : "Please fill in all fields"})
-    }
-    //check if match
-    if(password !== password2) {
-        errors.push({msg : "Passwords don't match"});
     }
 
     //check if password is more than 6 characters
@@ -43,22 +39,25 @@ router.post("/register",(req,res)=>{
         res.render("register", {
             errors : errors,
             name : name,
-            email : email,
             password : password,
-            password2 : password2
+            email : email,
+            firstName : firstName,
+            lastName : lastName
         })
     } else {
         //validation passed
         User.findOne({name : name}).exec((err,user) => {
             console.log(user);   
             if(user) {
-                errors.push({msg: "email already registered"});
-                res.render("register", {errors, name, email, password, password2})  
+                errors.push({msg: "User already registered"});
+                res.render("register", {errors, name, email, password, firstName, lastName})  
             } else {
             const newUser = new User({
                 name : name,
                 email : email,
-                password : password
+                password : password,
+                firstName: firstName,
+                lastName: lastName
             });
 
             //hash password
@@ -72,7 +71,7 @@ router.post("/register",(req,res)=>{
                         newUser.save()
                         .then((value)=>{
                             console.log(value)
-                            req.flash("success_msg","You have now registered!");
+                            req.flash("success_msg", "You have now registered!");
                             res.redirect("/users/login");
                         })
                         .catch(value => console.log(value))

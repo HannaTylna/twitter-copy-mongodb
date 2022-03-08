@@ -19,6 +19,9 @@
     padding: 5px;
     
 }
+.info__link:hover{
+    background: #808080;
+}
 .info__logout{
     margin-top: 20px;
 }

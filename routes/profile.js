@@ -1,24 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const {ensureAuthenticated} = require("../config/auth");
-const multer = require("multer");
-
-const { User } = require("../models/user");
-
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-    cb(null, "public/images");
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.originalname); //name of file on the uploaders computer
-    },
-});
-const upload = multer({
-    storage: storage,
-    // limits: {
-    //     fieldSize: 1024 * 1024 * 3, //1mb
-    // },
-});
 
 router.get("/userinfo", (req, res, next) => {
     try {

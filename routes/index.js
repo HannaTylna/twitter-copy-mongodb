@@ -53,29 +53,36 @@ router.get("/userinfo", requireLogin, async (req, res) => {
     })
 });
 
-router.post("/update", async (req, res) => {
-
-    var query = {"name": req.user.name}
-    const {firstName, lastName, email} = req.body;
-
-    console.log(firstName, lastName, email)
-
-    User.findOneAndUpdate(query, {$set: {firstName: firstName, lastName: lastName, email: email}}, {new: true}, (err, doc) => {
-        if (err) {
-            console.log("Not successful!");
-        }
-        res.redirect("/userinfo")
-    })
+router.post("/update", async (req, res, next) => {
+    try {
+        var user = {"name": req.user.name};
+        const {firstName, lastName, email} = req.body;
+        console.log(firstName, lastName, email);
+        await User.updateOne( user , 
+            {
+                $set: {
+                    firstName: firstName, 
+                    lastName: lastName, 
+                    email: email
+                }
+            }
+        );
+        res.redirect("/userinfo");
+    } catch (err) {
+        next(err);
+    }
 });
 
-router.post("/upload", upload.single("file"), (req, res) => {
+router.post("/upload", upload.single("file"), (req, res, next) => {
     console.log(req.file);
-    
-    const user = req.user
-    user.img = req.file.filename
-    user.save()
-
-    res.redirect("/userinfo");
+    try{
+        const user = req.user
+        user.img = req.file.filename
+        user.save()
+        res.redirect("/userinfo");
+    } catch (err) {
+        next(err);
+    }
 });
 
 module.exports = router;

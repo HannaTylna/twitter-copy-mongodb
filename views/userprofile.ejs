@@ -6,8 +6,12 @@
         
     </div>
     <div class="main__rightcolumn">
-        <p>Hello, <%= user.name %> </p>
-        <a href="/userinfo">Profile</a>
-        <a href="/users/logout">Logout</a>
+        <div>
+            <p>Hello, <%= user.name %> </p>
+        </div>
+        <div class="main__links">
+            <a href="/userinfo" class="info__link main__link">Profile</a>
+            <a href="/users/logout" class="info__link main__link">Logout</a>
+        </div>
     </div>
 </div>

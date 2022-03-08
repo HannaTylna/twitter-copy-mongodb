@@ -33,21 +33,9 @@ router.get("/", (req, res) => {
     res.render("welcome");
 });
 
-// register page
-router.get("/register", (req, res) => {
-    res.render("register");
-});
-
-router.get("/home", requireLogin, async (req, res) => {
-    res.render("userprofile", { 
-        // send the user information data to the web page
-        user: req.user
-    });
-});
-
-router.get("/userinfo", requireLogin, async (req, res) => {
+router.get("/user_info", requireLogin, async (req, res) => {
     //res.send("HEJ!")
-    res.render("userinfo", { 
+    res.render("userInfo", { 
         // send the user information data to the web page
         user: req.user
     })
@@ -67,7 +55,7 @@ router.post("/update", async (req, res, next) => {
                 }
             }
         );
-        res.redirect("/userinfo");
+        res.redirect("/user_info");
     } catch (err) {
         next(err);
     }
@@ -79,7 +67,7 @@ router.post("/upload", upload.single("file"), (req, res, next) => {
         const user = req.user
         user.img = req.file.filename
         user.save()
-        res.redirect("/userinfo");
+        res.redirect("/user_info");
     } catch (err) {
         next(err);
     }

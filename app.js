@@ -57,8 +57,11 @@ app.use((req, res, next) => {
 })
 
 //Routes
+app.use('/',require('./routes/login'));
+app.use('/register',require('./routes/register'));
+app.use('/home',require('./routes/home'));
 app.use('/',require('./routes/index'));
-app.use('/users',require('./routes/users'));
+
 //app.use("/userinfo", require("./routes/profile"));
 
 app.listen(PORT, () => {

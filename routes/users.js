@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const User = require("../models/user");
+const { User } = require("../models/user");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
 
@@ -23,7 +23,7 @@ router.post("/login",
 );
 
   //register post handle
-router.post("/register",(req,res)=>{
+router.post("/register", (req, res) => {
     const {name, email, password, firstName, lastName} = req.body;
     let errors = [];
     console.log(" Name " + name + " pass:" + password);
@@ -46,7 +46,7 @@ router.post("/register",(req,res)=>{
         })
     } else {
         //validation passed
-        User.findOne({name : name}).exec((err,user) => {
+        User.findOne({name: name}).exec((err,user) => {
             console.log(user);   
             if(user) {
                 errors.push({msg: "User already registered"});

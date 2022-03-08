@@ -6,6 +6,7 @@ const expressEjsLayout = require("express-ejs-layouts");
 const flash = require("connect-flash"); // a flash message (success message)
 const session = require("express-session");
 const passport = require("passport"); // authentication middleware 
+const bodyParser = require("body-parser");
 
 
 const PORT = 3000;
@@ -33,8 +34,9 @@ app.use(express.static("public/images"))
 app.set("layout", "./layouts/layout");
 app.set("view engine", "ejs");
 app.use(expressEjsLayout);
+
 //BodyParser
-app.use(express.urlencoded({extended : false}));
+app.use(bodyParser.urlencoded({extended : false}));
 
 // express session
 app.use(session({
@@ -44,6 +46,7 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+
 //use flash
 app.use(flash());
 app.use((req, res, next) => {

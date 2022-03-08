@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const {ensureAuthenticated} = require("../config/auth");
 const multer = require("multer");
 const path = require("path");
+
+const { User } = require("../models/user");
 
 
 // UPLOAD PHOTO FUNCTION 
@@ -18,7 +19,14 @@ var storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-//router.use(upload.single("file"));
+
+const requireLogin = (req, res, next) => {  // Vi skapar en egen middleware "requireLogin" - Om req.user = true så går man till nästa steg, annars skciakr vi fel meddelande
+    if (req.user) {
+        next()
+    } else {
+        res.sendStatus(401)
+    }
+}
 
 // login page
 router.get("/", (req, res) => {
@@ -30,18 +38,33 @@ router.get("/register", (req, res) => {
     res.render("register");
 });
 
-router.get("/home", ensureAuthenticated, (req, res) => {
+router.get("/home", requireLogin, async (req, res) => {
     res.render("userprofile", { 
         // send the user information data to the web page
         user: req.user
     });
 });
 
-router.get("/userinfo", ensureAuthenticated, (req, res) => {
+router.get("/userinfo", requireLogin, async (req, res) => {
     //res.send("HEJ!")
     res.render("userinfo", { 
         // send the user information data to the web page
         user: req.user
+    })
+});
+
+router.post("/update", async (req, res) => {
+
+    var query = {"name": req.user.name}
+    const {firstName, lastName, email} = req.body;
+
+    console.log(firstName, lastName, email)
+
+    User.findOneAndUpdate(query, {$set: {firstName: firstName, lastName: lastName, email: email}}, {new: true}, (err, doc) => {
+        if (err) {
+            console.log("Not successful!");
+        }
+        res.redirect("/userinfo")
     })
 });
 

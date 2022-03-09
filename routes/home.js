@@ -13,15 +13,13 @@ const { User } = require("../models/user");
 
 router.get("/", async (req, res) => {
     if(!req.user){
-        res.send("HOME!")
+        res.render("homePage");
     } else {
         res.render("userPage", { 
         // send the user information data to the web page
             user: req.user
         });
     }
-    
-    //res.render("homePage");
 });
 
 // router.get("/:userId", requireLogin, async (req, res) => {

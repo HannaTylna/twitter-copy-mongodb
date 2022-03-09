@@ -6,7 +6,7 @@ const path = require("path");
 const { User } = require("../models/user");
 
 
-// UPLOAD PHOTO FUNCTION 
+// upload photo
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -19,8 +19,8 @@ var storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-
-const requireLogin = (req, res, next) => {  // Vi skapar en egen middleware "requireLogin" - Om req.user = true så går man till nästa steg, annars skciakr vi fel meddelande
+// function to check if user login already
+const requireLogin = (req, res, next) => {  
     if (req.user) {
         next()
     } else {

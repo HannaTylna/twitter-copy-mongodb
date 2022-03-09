@@ -7,16 +7,36 @@
             <h2>Create a post</h2>
             <form action="/home" method="POST">
                 <textarea name="message"></textarea><br />
-                <button type="submit">Send</button>
+                <button type="submit">Publish</button>
             </form>
         </div>
+        <% posts.forEach(post=>{%>
+            <div>
+                <div>
+                    <div>
+                        <% if(post._creator.img){%>
+                            <img src="../public/uploads/images/<%= post._creator.img %>"/>
+                        <%} else {%>
+                            <img src="../public/images/img_default.png"/>
+                        <% }%>
+                    </div>
+                    <div>
+                        <p><a href="/public/<%=post._creator._id%>"><%=post._creator.username%></a><i class="fas fa-ellipsis-h float-end"></i> </p>
+                        
+                        <p><%= post.content %> </p>
+                        <p>created at <%= post.createdAt%></p>
+                        
+                    </div>
+                </div>
+            </div>     
+        <%})%>  
     </div>
     <div class="main__rightcolumn">
         <div>
             <p>Hello, <%= user.name %> </p>
         </div>
         <div class="main__links">
-            <a href="/user_info" class="info__link main__link">Profile</a>
+            <a href="/user/userInfo" class="info__link main__link">Profile</a>
             <a href="/logout" class="info__link main__link">Logout</a>
         </div>
     </div>

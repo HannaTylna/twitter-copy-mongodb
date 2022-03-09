@@ -60,7 +60,7 @@ app.use((req, res, next) => {
 app.use('/',require('./routes/login'));
 app.use('/register',require('./routes/register'));
 app.use('/home',require('./routes/home'));
-app.use('/',require('./routes/user'));
+app.use('/user',require('./routes/user'));
 
 //app.use("/userinfo", require("./routes/profile"));
 

@@ -1,3 +1,23 @@
 <div >     
-    
+    <h1>Public homepage</h1>  
+    <% posts.forEach(post=>{%>
+        <div>
+            <div>
+                <div>
+                    <% if(post._creator.img){%>
+                        <img src="../public/uploads/images/<%= post._creator.img %>"/>
+                    <%} else {%>
+                        <img src="../public/images/img_default.png"/>
+                    <% }%>
+                </div>
+                <div>
+                    <p><a href="/public/<%=post._creator._id%>"><%=post._creator.username%></a><i class="fas fa-ellipsis-h float-end"></i> </p>
+                    
+                    <p><%= post.content %> </p>
+                    <p>created at <%= post.createdAt%></p>
+                    
+                </div>
+            </div>
+        </div>     
+    <%})%>  
 </div>

@@ -19,7 +19,7 @@ var storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// function to check if user login already
+// function to check if user is already logged in 
 const requireLogin = (req, res, next) => {  
     if (req.user) {
         next()
@@ -28,10 +28,6 @@ const requireLogin = (req, res, next) => {
     }
 }
 
-// login page
-router.get("/", (req, res) => {
-    res.render("welcome");
-});
 
 router.get("/user_info", requireLogin, async (req, res) => {
     //res.send("HEJ!")
@@ -41,7 +37,7 @@ router.get("/user_info", requireLogin, async (req, res) => {
     })
 });
 
-router.post("/update", async (req, res, next) => {
+router.post("/update", requireLogin,  async (req, res, next) => {
     try {
         var user = {"name": req.user.name};
         const {firstName, lastName, email} = req.body;
@@ -61,7 +57,7 @@ router.post("/update", async (req, res, next) => {
     }
 });
 
-router.post("/upload", upload.single("file"), (req, res, next) => {
+router.post("/upload", requireLogin,  upload.single("file"), (req, res, next) => {
     console.log(req.file);
     try{
         const user = req.user

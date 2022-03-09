@@ -11,10 +11,14 @@ const postSchema = new mongoose.Schema({
         maxLength: 140,
         required: true
     },
-    timestamps: { 
-        createdAt: 'created_at', 
-        updatedAt: 'updated_at' 
-    }
+    created: {
+        type: Date,
+        default: Date.now
+    },
+    // timestamps: { 
+    //     createdAt: 'created_at', 
+    //     updatedAt: 'updated_at' 
+    // }
 });
 
 const Post = mongoose.model("Post", postSchema);

@@ -2,8 +2,11 @@ const express = require("express");
 const router = express.Router();
 const multer = require("multer");
 const path = require("path");
+const http = require("http").Server(router);
+var io = require("socket.io")(http);
 
 const { User } = require("../models/user");
+const { Post } = require("../models/post");
 
 
 // upload photo
@@ -26,14 +29,44 @@ const requireLogin = (req, res, next) => {
     } else {
         res.sendStatus(401)
     }
-}
+};
 
 
-router.get("/user_info", requireLogin, async (req, res) => {
+router.post("/", requireLogin, async (req, res) => {
+    const post = new Post(req.body);
+    post.save((err) =>{
+        if(err) 
+            sendStatus(500);
+        io.emit("post", req.body);
+        res.sendStatus(200);
+    })
+});
+
+
+router.get("/:userId", requireLogin, async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const user = await User.findOne({ _id: userId });
+        const img = await req.img;
+        const posts = await Post.find({ _creator: userId })
+            .populate("_creator")
+            .sort({ createdAt: -1 }) 
+            .exec();
+    
+        res.render("userPage.ejs", {
+            user: req.user,
+            posts,
+        });
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
+
+router.get("/userInfo", requireLogin, async (req, res) => {
     //res.send("HEJ!")
     res.render("userInfo", { 
-        // send the user information data to the web page
-        user: req.user
+        user: req.user // send the user information data to the web page
     })
 });
 
@@ -51,7 +84,7 @@ router.post("/update", requireLogin,  async (req, res, next) => {
                 }
             }
         );
-        res.redirect("/user_info");
+        res.redirect("/user");
     } catch (err) {
         next(err);
     }
@@ -63,10 +96,14 @@ router.post("/upload", requireLogin,  upload.single("file"), (req, res, next) =>
         const user = req.user
         user.img = req.file.filename
         user.save()
-        res.redirect("/user_info");
+        res.redirect("/user");
     } catch (err) {
         next(err);
     }
+});
+
+io.on('connection', () =>{
+    console.log('a user is connected')
 });
 
 module.exports = router;

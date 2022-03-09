@@ -1,7 +1,7 @@
 
 <div class="info">
     <div class="info__back">
-        <a href="/home" class="form__link  info__link">Back</a>
+        <a href="/user" class="form__link  info__link">Back</a>
     </div>
     
     <div class="info__user">
@@ -17,18 +17,15 @@
         <h1>Update user profile</h1>
 
         <h2>Photo upload</h2>
-        <form action="/upload" method="POST" enctype="multipart/form-data">
-                <input name="file" type="file">
-                <button type="submit">Upload file</button>
+        <form action="/user/upload" method="POST" enctype="multipart/form-data">
+            <input name="file" type="file">
+            <button type="submit">Upload file</button>
         </form>
 
-        <form action="/update" method="POST">
-            First name: <input type="text" name="firstName"><br/>
-            <br/>
-            Last name: <input type="text" name="lastName"><br/>
-            <br/>
-            Email: <input type="email" name="email"><br/>
-            <br/>
+        <form action="/user/update" method="POST">
+            First name: <input type="text" name="firstName"><br/><br/>
+            Last name: <input type="text" name="lastName"><br/><br/>
+            Email: <input type="email" name="email"><br/><br/>
             <button type="submit">Update</button>
             <div class="info__logout" >
                 <a href="/logout" class="form__link  info__link">Logout</a>

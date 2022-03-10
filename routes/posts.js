@@ -30,9 +30,26 @@ router.post("/", requireLogin, async (req, res, next) => {
 
     const newPost = new Post({ content , date, user, dateString, image})
     console.log(newPost);
-    await newPost.save()
-    res.redirect("/user")
-
+    let errors = [];
+    if(!content){
+        errors.push({msg: "You need to write something"});
+        console.log(errors);
+    }
+    if (content.length > 140){
+        errors.push({msg: "You can write max 140 letters"});
+        console.log(errors)
+    }
+    if (errors.length > 0){
+        const posts = await Post.find().sort({ date: -1});
+        res.render("userPage.ejs", {
+            errors: errors,
+            posts: posts,
+            user: req.user,
+        })
+    } else {
+        await newPost.save()
+        res.redirect("/user")
+    } 
 });
 
 module.exports = router;

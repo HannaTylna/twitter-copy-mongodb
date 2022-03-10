@@ -5,34 +5,29 @@
     <div class="main__centercolumn">
         <div class="main__post">
             <h2>Create a post</h2>
-            <form action="/user" method="POST">
-                <textarea name="message"></textarea><br />
+            <form action="/posts" method="POST">
+                <textarea name="content" placeholder="What you want to do" maxlength="140"></textarea><br />
                 <button type="submit">Publish</button>
             </form>
         </div>
-        <% posts.forEach(post=>{%>
-            <div>
-                <% if(post.postImage){%>
-                    <img src="../public/uploads/images/<%= post.postImage %>"/>
-                <%} else {%>
-                    <img src="../public/images/img_default.png"/>
-                <% }%>
-            </div>
-            <div>
-                <p><a href="/public/<%=post.postUser%>"><%=post.postUser%></a> </p>
-                
-                <p><%= post.post %> </p>
-                <p>created at <%= post.postDateString%></p>
-                
-            </div>
-        <%})%>  
+        <div>
+            <% posts.forEach( (post) =>{%>
+                <div>
+                    <a href="/users/<%= post.user%>"><img src="/<%= post.image %>" alt="A user photo" height="50px" ></a>
+                    <a href="/users/<%= post.user%>"><b><%= post.user %></b></a>  <%= post.dateString %> <br />
+                    <%= post.content %> 
+                </div>
+                <hr>
+            <%})%>  
+        </div>
+        
     </div>
     <div class="main__rightcolumn">
         <div>
             <p>Hello, <%= user.name %> </p>
         </div>
         <div class="main__links">
-            <a href="/user/userInfo" class="info__link main__link">Profile</a>
+            <a href="/user/" class="info__link main__link">Profile</a>
             <a href="/logout" class="info__link main__link">Logout</a>
         </div>
     </div>

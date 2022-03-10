@@ -32,11 +32,11 @@ router.post("/", requireLogin, async (req, res, next) => {
     console.log(newPost);
     let errors = [];
     if(!content){
-        errors.push({msg: "You need to write something"});
+        errors.push({msg: "* You need to write something"});
         console.log(errors);
     }
     if (content.length > 140){
-        errors.push({msg: "You can write max 140 letters"});
+        errors.push({msg: "* You can write max 140 letters"});
         console.log(errors)
     }
     if (errors.length > 0){

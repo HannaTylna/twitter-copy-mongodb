@@ -1,4 +1,4 @@
-<div style="color: red">
+<div style="color: red; font-size: 14px; font-weight: bold;">
     <% if (typeof errors != 'undefined') { %>
         <% errors.forEach(function (error) { %>
             <p> <%= error.msg %></p>
@@ -7,19 +7,19 @@
 </div>
 
 
-<div style="color: green">
+<div style="color: green; font-size: 18px; font-weight: bold;">
     <% if(success_msg != "") { %>
         <%= success_msg %> </p>
     <% } %>
 </div>
 
-<div style="color: red">
+<div style="color: red; font-size: 14px; font-weight: bold;">
     <% if(error_msg != "") { %>
         <%= error_msg %>
     <% } %>
 </div>
 
-<div style="color: red">
+<div style="color: red; font-size: 14px; font-weight: bold;">
     <% if(error_msg != "") { %>
         <%= error %>
     <% } %>

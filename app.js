@@ -1,6 +1,5 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const router = express.Router();
 const app = express();
 const expressEjsLayout = require("express-ejs-layouts");
 const flash = require("connect-flash"); // a flash message (success message)
@@ -59,7 +58,6 @@ app.use((req, res, next) => {
 //Routes
 app.use('/',require('./routes/login'));
 app.use('/register',require('./routes/register'));
-app.use('/home',require('./routes/home'));
 app.use('/user',require('./routes/user'));
 app.use('/posts', require('./routes/posts'));
 

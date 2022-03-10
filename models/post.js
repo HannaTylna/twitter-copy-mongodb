@@ -2,18 +2,18 @@ const mongoose = require("mongoose");
 const moment = require("moment");
 
 const postSchema = new mongoose.Schema({
-    _creator: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
+    _creator: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "User" 
     },
-    content: {
+    content: { 
+        type: String, 
+        maxLength: 140
+    },
+    createdAt: {
         type: String,
-        maxLength: 140,
-        required: true
-    },
-    created: {
-        type: Date,
-        default: Date.now
+        immutable: true,
+        default: () => moment().format("YYYY-MM-DD, HH:mm:ss"),
     },
     // timestamps: { 
     //     createdAt: 'created_at', 

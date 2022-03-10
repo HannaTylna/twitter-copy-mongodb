@@ -61,7 +61,6 @@ app.use('/register',require('./routes/register'));
 app.use('/user',require('./routes/user'));
 app.use('/posts', require('./routes/posts'));
 
-//app.use("/userinfo", require("./routes/profile"));
 
 app.listen(PORT, () => {
     console.log(`Started listening on port ${PORT}`);

@@ -49,7 +49,9 @@ html, body {
     height: 80px;
     align-items: center;
 }
-
+.header__menu {
+    margin-right: 50px;
+}
 .header__logo {
     margin-left: 15px;
     flex: 0 0 50px;
@@ -61,6 +63,27 @@ html, body {
     width: 60px;
     border-radius: 50%;
 }
+.header__list {
+    display: flex;
+    position: relative;
+    z-index: 2;
+}
+.header__list li {
+    list-style: none;
+    margin: 0px 0px 0px 30px;
+}
+
+.header__link {
+    color: #000;
+    text-transform: uppercase;
+    font-size: 18px;
+    text-decoration: none;
+    font-weight: bold;
+}
+.header__link:hover {
+    border-bottom: 4px solid #000;
+}
+
 
 /* @media (max-width: 576px){
     max-width: 540px;

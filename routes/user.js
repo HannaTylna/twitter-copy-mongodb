@@ -30,23 +30,10 @@ const requireLogin = (req, res, next) => {
 };
 
 
-router.post("/", requireLogin, async (req, res, next) => {
-    const postUser = req.user.name;
-    const { post } = req.body;
-    const postDate = new Date();
-    const postDateString = `${postDate.toLocaleDateString()} at ${postDate.toLocaleTimeString()}`;
-    const postImage = req.user.img;
-
-    const newEntry = new Post({ post, postDate, postUser, postDateString, postImage})
-    await newEntry.save()
-    res.redirect("/user")
-
-});
-
 
 router.get("/", requireLogin, async (req, res) => {
     
-    const posts = await Post.find().sort({ createdAt: -1});
+    const posts = await Post.find().sort({ date: -1});
     if(req.user){
         res.render("userPage.ejs", {
             posts,
@@ -59,10 +46,13 @@ router.get("/", requireLogin, async (req, res) => {
 });
 
 
-router.get("/userInfo", requireLogin, async (req, res) => {
+router.get("/:id", requireLogin, async (req, res) => {
     //res.send("HEJ!")
+    const userId = req.params.id;
+    const user = await User.findOne({_id: userId})
+        
     res.render("userInfo", { 
-        user: req.user // send the user information data to the web page
+        user: user // send the user information data to the web page
     })
 });
 
@@ -92,7 +82,7 @@ router.post("/upload", requireLogin,  upload.single("file"), (req, res, next) =>
         const user = req.user
         user.img = req.file.filename
         user.save()
-        res.redirect("/user");
+        res.redirect("/user/userinfo");
     } catch (err) {
         next(err);
     }

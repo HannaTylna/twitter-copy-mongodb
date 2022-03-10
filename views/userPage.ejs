@@ -5,30 +5,26 @@
     <div class="main__centercolumn">
         <div class="main__post">
             <h2>Create a post</h2>
-            <form action="/home" method="POST">
+            <form action="/user" method="POST">
                 <textarea name="message"></textarea><br />
                 <button type="submit">Publish</button>
             </form>
         </div>
         <% posts.forEach(post=>{%>
             <div>
-                <div>
-                    <div>
-                        <% if(post._creator.img){%>
-                            <img src="../public/uploads/images/<%= post._creator.img %>"/>
-                        <%} else {%>
-                            <img src="../public/images/img_default.png"/>
-                        <% }%>
-                    </div>
-                    <div>
-                        <p><a href="/public/<%=post._creator._id%>"><%=post._creator.username%></a><i class="fas fa-ellipsis-h float-end"></i> </p>
-                        
-                        <p><%= post.content %> </p>
-                        <p>created at <%= post.createdAt%></p>
-                        
-                    </div>
-                </div>
-            </div>     
+                <% if(post.postImage){%>
+                    <img src="../public/uploads/images/<%= post.postImage %>"/>
+                <%} else {%>
+                    <img src="../public/images/img_default.png"/>
+                <% }%>
+            </div>
+            <div>
+                <p><a href="/public/<%=post.postUser%>"><%=post.postUser%></a> </p>
+                
+                <p><%= post.post %> </p>
+                <p>created at <%= post.postDateString%></p>
+                
+            </div>
         <%})%>  
     </div>
     <div class="main__rightcolumn">

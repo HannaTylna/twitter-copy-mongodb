@@ -2,8 +2,6 @@ const express = require("express");
 const router = express.Router();
 const multer = require("multer");
 const path = require("path");
-const http = require("http").Server(router);
-var io = require("socket.io")(http);
 
 const { User } = require("../models/user");
 const { Post } = require("../models/post");
@@ -32,33 +30,31 @@ const requireLogin = (req, res, next) => {
 };
 
 
-router.post("/", requireLogin, async (req, res) => {
-    const post = new Post(req.body);
-    post.save((err) =>{
-        if(err) 
-            sendStatus(500);
-        io.emit("post", req.body);
-        res.sendStatus(200);
-    })
+router.post("/", requireLogin, async (req, res, next) => {
+    const postUser = req.user.name;
+    const { post } = req.body;
+    const postDate = new Date();
+    const postDateString = `${postDate.toLocaleDateString()} at ${postDate.toLocaleTimeString()}`;
+    const postImage = req.user.img;
+
+    const newEntry = new Post({ post, postDate, postUser, postDateString, postImage})
+    await newEntry.save()
+    res.redirect("/user")
+
 });
 
 
-router.get("/:userId", requireLogin, async (req, res) => {
-    try {
-        const userId = req.params.userId;
-        const user = await User.findOne({ _id: userId });
-        const img = await req.img;
-        const posts = await Post.find({ _creator: userId })
-            .populate("_creator")
-            .sort({ createdAt: -1 }) 
-            .exec();
+router.get("/", requireLogin, async (req, res) => {
     
+    const posts = await Post.find().sort({ createdAt: -1});
+    if(req.user){
         res.render("userPage.ejs", {
-            user: req.user,
             posts,
-        });
-    } catch (err) {
-        console.log(err.message);
+            user: req.user,
+
+        })
+    } else{
+        res.redirect("/login")
     }
 });
 
@@ -100,10 +96,6 @@ router.post("/upload", requireLogin,  upload.single("file"), (req, res, next) =>
     } catch (err) {
         next(err);
     }
-});
-
-io.on('connection', () =>{
-    console.log('a user is connected')
 });
 
 module.exports = router;

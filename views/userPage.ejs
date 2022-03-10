@@ -1,12 +1,10 @@
 <div class="main">
-    <div class="main__leftcolumn">
-
-    </div>
     <div class="main__centercolumn">
         <div class="main__post">
             <h2>Create a post</h2>
+            <%- include ("partials/messages.ejs") %>
             <form action="/posts" method="POST">
-                <textarea name="content" placeholder="What you want to do" maxlength="140"></textarea><br />
+                <textarea name="content" placeholder="What you want to do" rows="10" cols="50"></textarea><br />
                 <button type="submit">Publish</button>
             </form>
         </div>

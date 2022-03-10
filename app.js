@@ -61,6 +61,7 @@ app.use('/',require('./routes/login'));
 app.use('/register',require('./routes/register'));
 app.use('/home',require('./routes/home'));
 app.use('/user',require('./routes/user'));
+app.use('/posts', require('./routes/posts'));
 
 //app.use("/userinfo", require("./routes/profile"));
 

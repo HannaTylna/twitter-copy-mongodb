@@ -11,10 +11,17 @@
         <p><span style="font-weight: bold; color: #808080">EMAIL: </span> <%= userPosts[userPosts.length-1].email %></p>
         <p><span style="font-weight: bold; color: #808080">FIRST NAME: </span> <%= userPosts[userPosts.length-1].firstName %></p>
         <p><span style="font-weight: bold; color: #808080">LAST NAME: </span> <%= userPosts[userPosts.length-1].lastName %></p>
+        
         <div style="margin-top: 20px;">
-            <form action="/user/<%= userPosts[userPosts.length-1].user %>" method="POST">
-                <button type="submit" style="font-size: 18px; padding: 5px; font-weight: bold;">Follow</button>
-            </form>
+            <% if( user.followers.includes(currentUser.id)){ %>
+                <form action="/user/<%=userId%>/unfollow" method="POST">
+                    <button type="submit" style="font-size: 18px; padding: 5px; font-weight: bold;">Unfollow</button>
+                </form>
+            <% } else { %>
+                <form action="/user/<%=userId%>/follow" method="POST">
+                    <button type="submit" style="font-size: 18px; padding: 5px; font-weight: bold;">Follow</button>
+                </form>
+            <%}%>
         </div>
     </div>
 </div>

@@ -43,49 +43,67 @@ router.get("/", requireLogin, async (req, res) => {
     }
 });
 
-
-router.post("/", requireLogin, async (req, res, next) => {
-    const user = req.user.name;
-    const { content } = req.body;
-    const date = new Date();
-    const dateString = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
-    const image = req.user.img;
-
-    const newPost = new Post({ content , date, user, dateString, image})
-    console.log(newPost);
-    let errors = [];
-    if(!content){
-        errors.push({msg: "* You need to write something"});
-        console.log(errors);
-    }
-    if (content.length > 140){
-        errors.push({msg: "* You can write max 140 letters"});
-        console.log(errors)
-    }
-    if (errors.length > 0){
+router.get("/profile", requireLogin, async (req, res, next) => {
+    try{
         const posts = await Post.find().sort({ date: -1});
-        res.render("userPage.ejs", {
-            errors: errors,
+        res.render("userInfo", { 
             posts: posts,
-            user: req.user,
+            user: req.user // send the user information data to the web page
         })
-    } else {
-        await newPost.save()
-        res.redirect("/user")
-    } 
+    } catch (err) {
+        next(err);
+    }
+    
 });
 
+router.get("/:userId", async (req, res, next) => {
+    try{
 
-router.get("/profile", requireLogin, async (req, res) => {
-    //res.send("HEJ!")
-    // const userId = req.params.id;
-    // const user = await User.findOne({_id: userId})
-    //console.log(user);
-    const posts = await Post.find().sort({ date: -1});
-    res.render("userInfo", { 
-        posts: posts,
-        user: req.user // send the user information data to the web page
-    })
+        const userPosts = await Post.find({ user: req.params.userId }).sort({ date: -1});
+        res.render("userPosts.ejs", { userPosts: userPosts });
+
+    } catch (err) {
+        next(err);
+    }
+    
+});
+
+router.post("/", requireLogin, async (req, res, next) => {
+    try {
+        const user = req.user.name;
+        const { content } = req.body;
+        const date = new Date();
+        const dateString = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+        const image = req.user.img;
+        const email = req.user.email;
+        const firstName = req.user.firstName;
+        const lastName = req.user.lastName;
+
+        const newPost = new Post({ content , date, user, dateString, image, email, firstName, lastName})
+        console.log(newPost);
+        let errors = [];
+        if(!content){
+            errors.push({msg: "* You need to write something"});
+            console.log(errors);
+        }
+        if (content.length > 140){
+            errors.push({msg: "* You can write max 140 letters"});
+            console.log(errors)
+        }
+        if (errors.length > 0){
+            const posts = await Post.find().sort({ date: -1});
+            res.render("userPage.ejs", {
+                errors: errors,
+                posts: posts,
+                user: req.user,
+            })
+        } else {
+            await newPost.save()
+            res.redirect("/user")
+        } 
+    } catch (err) {
+        next(err);
+    }
 });
 
 router.post("/update", requireLogin,  async (req, res, next) => {

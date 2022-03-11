@@ -27,3 +27,10 @@
 .main__link:hover{
     color: #fff;
 }
+.user__link{
+    text-decoration: none;
+    color: #808080;
+}
+.user__link:hover{
+    color: #499edf;
+}

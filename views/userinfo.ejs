@@ -33,3 +33,19 @@
         </form>
     </div>
 </div>
+<div>
+    <h2>My posts</h2>
+
+    <% posts.forEach( (post) =>{%>
+        <% if (post.user === user.name) { %>
+            <div style="padding: 20px;">
+                <a href="/user/<%= post.user%>"><img src="/<%= post.image %>" alt="A user photo" height="50px" ></a>
+                <a href="/user/<%= post.user%>"><b><%= post.user %></b></a>  <%= post.dateString %> <br />
+                <div style="padding: 20px">
+                    <%= post.content %> 
+                </div>
+            </div>
+            <hr>
+        <% } %>
+    <%})%>  
+</div>

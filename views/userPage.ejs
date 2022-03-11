@@ -12,8 +12,10 @@
             <% posts.forEach( (post) =>{%>
                 <div style="padding: 20px;">
                     <a href="/user/<%= post.user%>"><img src="/<%= post.image %>" alt="A user photo" height="50px" ></a>
-                    <a class="user__link" href="/user/<%= post.user%>"><b><%= post.user %></b></a>  <%= post.dateString %> <br />
-                    <%= post.content %> 
+                    <a class="user__link" href="/user/<%= post.user%>"><%= post.user %></a>  <%= post.dateString %> <br />
+                    <div style="margin-top: 10px; padding: 20px; background-color: #c9c5c5; text-align: justify; color: #000">
+                        <%= post.content %> 
+                    </div>
                 </div>
                 <hr>
             <%})%>  
@@ -22,7 +24,7 @@
     </div>
     <div class="main__rightcolumn">
         <div>
-            <p>Hello, <%= user.name %> </p>
+            <p style="color: #499edf; font-weight: bold; font-size: 24px;">Hello, <%= user.name %> </p>
         </div>
         <div class="main__links">
             <a href="/user/profile" class="info__link main__link">Profile</a>

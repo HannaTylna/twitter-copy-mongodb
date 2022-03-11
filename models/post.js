@@ -6,6 +6,10 @@ const postSchema = new mongoose.Schema({
     user: { type: String },
     dateString: { type: String },
     image: { type: String },
+    email: { type: String },
+    firstName: { type: String },
+    lastName: { type: String },
+    
     // timestamps: { 
     //     createdAt: 'created_at', 
     //     updatedAt: 'updated_at' 

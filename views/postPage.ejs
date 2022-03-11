@@ -1,12 +1,12 @@
 <%- include ("./partials/navbar.ejs") %> 
 <div style="margin-top: 100px; text-align: center;">     
     <h1 style="text-transform: uppercase;">Posts</h1>  
-    <div style="margin: 50px 200px">
+    <div style="margin: 50px 100px">
         <% posts.forEach( (post) =>{%>
-            <div style="padding: 20px;">
+            <div style="padding: 20px; text-align: left;">
                 <a href="/user/<%= post.user%>"><img src="/<%= post.image %>" alt="A user photo" height="50px" ></a>
-                <a href="/user/<%= post.user%>"><b><%= post.user %></b></a>  <%= post.dateString %> <br />
-                <div style="padding: 20px">
+                <a class="user__link" href="/user/<%= post.user%>"><%= post.user %></a>  <%= post.dateString %> <br />
+                <div style="margin-top: 10px; padding: 20px; background-color: #c9c5c5; text-align: justify; color: #000">
                     <%= post.content %> 
                 </div>
             </div>

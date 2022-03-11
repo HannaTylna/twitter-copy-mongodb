@@ -22,9 +22,17 @@ const userSchema  = new mongoose.Schema({
     img: {
         type: String, 
         default: "img_default.png"
-    }
+    },
+    following: [{ 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "User" 
+    }],
+    followers: [{ 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "User" 
+    }],
 });
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model("User", userSchema);
 
 exports.User = User;

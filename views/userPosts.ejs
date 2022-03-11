@@ -1,0 +1,35 @@
+<div class="info">
+    <div class="info__back">
+        <a href="/posts" class="form__link  info__link">Back</a>
+    </div>
+    
+    <div class="info__user">
+        <h1><%= userPosts[userPosts.length-1].user %>'s Profile</h1>
+        <img src="/<%= userPosts[userPosts.length-1].image %>" alt="A user photo" height="100px">
+        <p><span style="font-weight: bold; color: #808080">NAME: </span><%= userPosts[userPosts.length-1].user %></p>
+        <p><span style="font-weight: bold; color: #808080">EMAIL: </span> <%= userPosts[userPosts.length-1].email %></p>
+        <p><span style="font-weight: bold; color: #808080">FIRST NAME: </span> <%= userPosts[userPosts.length-1].firstName %></p>
+        <p><span style="font-weight: bold; color: #808080">LAST NAME: </span> <%= userPosts[userPosts.length-1].lastName %></p>
+        <div class="info__logout" >
+            <a href="#" class="form__link  info__link">Follow</a> 
+            <!-- "/users/<%= userPosts[userPosts.length-1].entryUser %>" -->
+        </div>
+    </div>
+    <!-- <form action="/users/<%= userPosts[userPosts.length-1].entryUser %>" method="POST">
+        <button type="submit">Follow</button>
+    </form> -->
+</div>
+<div>
+    <h2><%= userPosts[userPosts.length-1].user %>'s posts</h2>
+
+    <% userPosts.forEach( (post) =>{%>
+        <div style="padding: 20px;">
+            <img src="/<%= post.image %>" alt="A user photo" height="50px" >
+            <%= post.user %> <%= post.dateString %> <br />
+            <div style="padding: 20px">
+                <%= post.content %> 
+            </div>
+        </div>
+        <hr>
+    <%})%>  
+</div>

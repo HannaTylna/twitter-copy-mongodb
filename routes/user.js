@@ -58,14 +58,70 @@ router.get("/profile", requireLogin, async (req, res, next) => {
 
 router.get("/:userId", async (req, res, next) => {
     try{
-
-        const userPosts = await Post.find({ user: req.params.userId }).sort({ date: -1});
-        res.render("userPosts.ejs", { userPosts: userPosts });
+        const userId = req.params.userId;
+        const user = await User.findOne({ user: userId });
+        const img = await user.img;
+        const currentUser = await User.findById(req.user._id);
+        const userPosts = await Post.find({ user: userId}).sort({ date: -1});
+        console.log(userId, user, currentUser);// Emma, {Emma}, {Tommy}
+        res.render("userPosts.ejs", { 
+            userPosts: userPosts,
+            img: img,
+            user: user,
+            currentUser: currentUser,
+            name: req.user.name,
+            userId: userId
+        });
 
     } catch (err) {
         next(err);
     }
     
+});
+
+router.post("/:userId/follow", async (req, res, next) => {
+    try {
+        const userId = req.params.userId;
+        const user = req.user._id;
+        const currentUserId = req.user.name;
+        console.log(userId, user, currentUserId);
+        // if (userId !== currentUserId) {
+        //     const user = await User.findById( userId );
+        //     const currentUser = await User.findById(currentUserId);
+        //     console.log(user, currentUser);
+        //     if (!currentUser.following.includes(userId)) {
+        //         await user.updateOne({ $push: { followers: currentUserId } });
+        //         await currentUser.updateOne({ $push: { following: userId } });
+        //         res.redirect(`/user/${userId}`);
+        //     } else {
+        //         res.redirect(`/user/${userId}`);
+        //     }
+        // } else {
+        //     res.status(400).send("You can not follow yourself");
+        // }
+    } catch (err) {
+        res.sendStatus(500);
+        next(err);
+    }
+});
+
+router.post("/:userId/unfollow", async (req, res, next) => {
+    try {
+        const userId = req.params.userId;
+        const currentUserId = req.user.id;
+        const user = await User.findById(userId);
+        const currentUser = await User.findById(currentUserId);
+        if (currentUser.following.includes(userId)) {
+            await user.updateOne({ $pull: { followers: currentUserId } });
+            await currentUser.updateOne({ $pull: { following: userId } });
+            res.redirect(`/user/${userId}`);
+        } else {
+            res.redirect(`/user/${userId}`);
+        }
+    } catch (err) {
+        res.sendStatus(500);
+        next(err);
+    }
 });
 
 router.post("/", requireLogin, async (req, res, next) => {

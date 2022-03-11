@@ -10,7 +10,7 @@
         </div>
         <div>
             <% posts.forEach( (post) =>{%>
-                <div>
+                <div style="padding: 20px;">
                     <a href="/user/<%= post.user%>"><img src="/<%= post.image %>" alt="A user photo" height="50px" ></a>
                     <a href="/user/<%= post.user%>"><b><%= post.user %></b></a>  <%= post.dateString %> <br />
                     <%= post.content %> 

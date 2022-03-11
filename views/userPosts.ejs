@@ -3,7 +3,7 @@
         <a href="/posts" class="form__link  info__link">Back</a>
     </div>
     
-    <div class="info__user">
+    <div style="text-align: left; margin-left: 100px;">
         <h1><%= userPosts[userPosts.length-1].user %>'s Profile</h1>
         <img src="/<%= userPosts[userPosts.length-1].image %>" alt="A user photo" height="100px">
         <p><span style="font-weight: bold; color: #808080">NAME: </span><%= userPosts[userPosts.length-1].user %></p>
@@ -19,7 +19,7 @@
         <button type="submit">Follow</button>
     </form> -->
 </div>
-<div>
+<div style="text-align: center; margin: 50px 100px;">
     <h2><%= userPosts[userPosts.length-1].user %>'s posts</h2>
 
     <% userPosts.forEach( (post) =>{%>

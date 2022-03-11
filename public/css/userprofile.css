@@ -30,6 +30,7 @@
 .user__link{
     text-decoration: none;
     color: #808080;
+    font-weight: bold;
 }
 .user__link:hover{
     color: #499edf;

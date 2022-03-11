@@ -76,13 +76,15 @@ router.post("/", requireLogin, async (req, res, next) => {
 });
 
 
-router.get("/:id", requireLogin, async (req, res) => {
+router.get("/profile", requireLogin, async (req, res) => {
     //res.send("HEJ!")
-    const userId = req.params.id;
-    const user = await User.findOne({_id: userId})
-    console.log(user);
+    // const userId = req.params.id;
+    // const user = await User.findOne({_id: userId})
+    //console.log(user);
+    const posts = await Post.find().sort({ date: -1});
     res.render("userInfo", { 
-        user: user // send the user information data to the web page
+        posts: posts,
+        user: req.user // send the user information data to the web page
     })
 });
 
@@ -100,7 +102,7 @@ router.post("/update", requireLogin,  async (req, res, next) => {
                 }
             }
         );
-        res.redirect("/user");
+        res.redirect("/user/profile");
     } catch (err) {
         next(err);
     }
@@ -112,7 +114,7 @@ router.post("/upload", requireLogin,  upload.single("file"), (req, res, next) =>
         const user = req.user
         user.img = req.file.filename
         user.save()
-        res.redirect("/user/userinfo");
+        res.redirect("/user/profile");
     } catch (err) {
         next(err);
     }

@@ -1,3 +1,4 @@
+<%- include ("./partials/navbar.ejs") %> 
 <div class="info">
     <div class="info__back">
         <a href="/posts" class="form__link  info__link">Back</a>
@@ -10,23 +11,21 @@
         <p><span style="font-weight: bold; color: #808080">EMAIL: </span> <%= userPosts[userPosts.length-1].email %></p>
         <p><span style="font-weight: bold; color: #808080">FIRST NAME: </span> <%= userPosts[userPosts.length-1].firstName %></p>
         <p><span style="font-weight: bold; color: #808080">LAST NAME: </span> <%= userPosts[userPosts.length-1].lastName %></p>
-        <div class="info__logout" >
-            <a href="#" class="form__link  info__link">Follow</a> 
-            <!-- "/users/<%= userPosts[userPosts.length-1].entryUser %>" -->
+        <div style="margin-top: 20px;">
+            <form action="/user/<%= userPosts[userPosts.length-1].user %>" method="POST">
+                <button type="submit" style="font-size: 18px; padding: 5px; font-weight: bold;">Follow</button>
+            </form>
         </div>
     </div>
-    <!-- <form action="/users/<%= userPosts[userPosts.length-1].entryUser %>" method="POST">
-        <button type="submit">Follow</button>
-    </form> -->
 </div>
 <div style="text-align: center; margin: 50px 100px;">
     <h2><%= userPosts[userPosts.length-1].user %>'s posts</h2>
 
     <% userPosts.forEach( (post) =>{%>
-        <div style="padding: 20px;">
+        <div style="padding: 20px; text-align: left;">
             <img src="/<%= post.image %>" alt="A user photo" height="50px" >
-            <%= post.user %> <%= post.dateString %> <br />
-            <div style="padding: 20px">
+            <span style="font-weight: bold; color: #808080; text-transform: uppercase;"><%= post.user %> </span> <%= post.dateString %> <br />
+            <div style="margin-top: 10px; padding: 20px; background-color: #c9c5c5; text-align: justify; color: #000">
                 <%= post.content %> 
             </div>
         </div>

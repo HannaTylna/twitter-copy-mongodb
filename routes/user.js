@@ -31,7 +31,7 @@ const requireLogin = (req, res, next) => {
 
 router.get("/", requireLogin, async (req, res) => {
     
-    const posts = await Post.find().sort({ date: -1});
+    const posts = await Post.find().sort({ createdAt: -1});
     if(req.user){
         res.render("userPage.ejs", {
             posts,
@@ -45,10 +45,12 @@ router.get("/", requireLogin, async (req, res) => {
 
 router.get("/profile", requireLogin, async (req, res, next) => {
     try{
-        const posts = await Post.find().sort({ date: -1});
+        const posts = await Post.find().sort({ createdAt: -1 });
         res.render("userInfo", { 
             posts: posts,
-            user: req.user // send the user information data to the web page
+            user: req.user, // send the user information data to the web page
+            image: req.user.img,
+            following: req.user.following
         })
     } catch (err) {
         next(err);
@@ -58,19 +60,12 @@ router.get("/profile", requireLogin, async (req, res, next) => {
 
 router.get("/:userId", async (req, res, next) => {
     try{
-        const userId = req.params.userId;
-        const user = await User.findOne({ user: userId });
-        const img = await user.img;
-        const currentUser = await User.findById(req.user._id);
-        const userPosts = await Post.find({ user: userId}).sort({ date: -1});
-        console.log(userId, user, currentUser);// Emma, {Emma}, {Tommy}
+        
+        const userPosts = await Post.find({ user: req.params.userId})
+            .sort({ createdAt: -1 });
+            
         res.render("userPosts.ejs", { 
             userPosts: userPosts,
-            img: img,
-            user: user,
-            currentUser: currentUser,
-            name: req.user.name,
-            userId: userId
         });
 
     } catch (err) {
@@ -79,64 +74,19 @@ router.get("/:userId", async (req, res, next) => {
     
 });
 
-router.post("/:userId/follow", async (req, res, next) => {
-    try {
-        const userId = req.params.userId;
-        const user = req.user._id;
-        const currentUserId = req.user.name;
-        console.log(userId, user, currentUserId);
-        // if (userId !== currentUserId) {
-        //     const user = await User.findById( userId );
-        //     const currentUser = await User.findById(currentUserId);
-        //     console.log(user, currentUser);
-        //     if (!currentUser.following.includes(userId)) {
-        //         await user.updateOne({ $push: { followers: currentUserId } });
-        //         await currentUser.updateOne({ $push: { following: userId } });
-        //         res.redirect(`/user/${userId}`);
-        //     } else {
-        //         res.redirect(`/user/${userId}`);
-        //     }
-        // } else {
-        //     res.status(400).send("You can not follow yourself");
-        // }
-    } catch (err) {
-        res.sendStatus(500);
-        next(err);
-    }
-});
 
-router.post("/:userId/unfollow", async (req, res, next) => {
-    try {
-        const userId = req.params.userId;
-        const currentUserId = req.user.id;
-        const user = await User.findById(userId);
-        const currentUser = await User.findById(currentUserId);
-        if (currentUser.following.includes(userId)) {
-            await user.updateOne({ $pull: { followers: currentUserId } });
-            await currentUser.updateOne({ $pull: { following: userId } });
-            res.redirect(`/user/${userId}`);
-        } else {
-            res.redirect(`/user/${userId}`);
-        }
-    } catch (err) {
-        res.sendStatus(500);
-        next(err);
-    }
-});
 
 router.post("/", requireLogin, async (req, res, next) => {
     try {
         const user = req.user.name;
         const { content } = req.body;
-        const date = new Date();
-        const dateString = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
         const image = req.user.img;
         const email = req.user.email;
         const firstName = req.user.firstName;
         const lastName = req.user.lastName;
 
-        const newPost = new Post({ content , date, user, dateString, image, email, firstName, lastName})
-        console.log(newPost);
+        const post = new Post({ content , user, image, email, firstName, lastName})
+        console.log(post);
         let errors = [];
         if(!content){
             errors.push({msg: "* You need to write something"});
@@ -147,14 +97,14 @@ router.post("/", requireLogin, async (req, res, next) => {
             console.log(errors)
         }
         if (errors.length > 0){
-            const posts = await Post.find().sort({ date: -1});
+            const posts = await Post.find().sort({ createdAt: -1 });
             res.render("userPage.ejs", {
                 errors: errors,
                 posts: posts,
                 user: req.user,
             })
         } else {
-            await newPost.save()
+            await post.save()
             res.redirect("/user")
         } 
     } catch (err) {
@@ -193,5 +143,24 @@ router.post("/upload", requireLogin,  upload.single("file"), (req, res, next) =>
         next(err);
     }
 });
+
+router.post("/:userId", async (req, res) => {
+    
+    const following = req.user.following;
+    const newFollow = req.params.userId;
+    const currentUser = req.user.name;
+    
+    console.log(following)
+    console.log(newFollow)
+    console.log(currentUser)
+
+    following.push(newFollow);
+    
+    await req.user.save();
+
+    console.log(following)
+
+    res.redirect(`/user/${newFollow}`)
+})
 
 module.exports = router;

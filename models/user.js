@@ -24,13 +24,9 @@ const userSchema  = new mongoose.Schema({
         default: "img_default.png"
     },
     following: [{ 
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: "User" 
-    }],
-    followers: [{ 
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: "User" 
-    }],
+        type: Array,
+        "default": []
+    }]
 });
 
 const User = mongoose.model("User", userSchema);

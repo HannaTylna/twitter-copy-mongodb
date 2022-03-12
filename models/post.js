@@ -1,17 +1,17 @@
 const mongoose = require("mongoose");
+const moment = require("moment");
 
 const postSchema = new mongoose.Schema({
 
     content: { 
-        type: String, maxLength: 140 
+        type: String
     },
-    date: { 
-        type: Date
+    createdAt: {
+        type: String,
+        immutable: true,
+        default: () => moment().format("YYYY-MM-DD, HH:mm:ss"),
     },
     user: { 
-        type: String 
-    },
-    dateString: { 
         type: String 
     },
     image: { 

@@ -5,7 +5,7 @@
         <% posts.forEach( (post) =>{%>
             <div style="padding: 20px; text-align: left;">
                 <a href="/user/<%= post.user%>"><img src="/<%= post.image %>" alt="A user photo" height="50px" ></a>
-                <a class="user__link" href="/user/<%= post.user%>"><%= post.user %></a>  <%= post.dateString %> <br />
+                <a class="user__link" href="/user/<%= post.user%>"><%= post.user %></a>  <%= post.createdAt %> <br />
                 <div style="margin-top: 10px; padding: 20px; background-color: #c9c5c5; text-align: justify; color: #000">
                     <%= post.content %> 
                 </div>

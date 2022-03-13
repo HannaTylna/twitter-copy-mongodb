@@ -38,7 +38,7 @@ router.get("/", requireLogin, async (req, res) => {
         res.render("userPage.ejs", {
             posts,
             user: req.user,
-            
+
         });
     } else{
         res.redirect("/login");
@@ -70,6 +70,7 @@ router.get("/:userId", async (req, res, next) => {
         const email = await user.email;
         console.log(username, user);
         const currentUser = await User.find(req.user);
+        const currentId = await currentUser.id;
         const posts = await Post.find({user: username})
             .sort({ createdAt: -1 });
             console.log(posts, user, currentUser,img, firstName, lastName, email);
@@ -81,7 +82,8 @@ router.get("/:userId", async (req, res, next) => {
             firstName, 
             lastName,
             email,
-            currentUser
+            currentUser, 
+            currentId
         })
     } catch (err) {
         next(err);
@@ -159,13 +161,13 @@ router.post("/upload", requireLogin,  upload.single("file"), (req, res, next) =>
     }
 });
 
-router.post ("/:id/follow", requireLogin, async (req, res, next) => {
+router.post ("/:id/follow",  async (req, res, next) => {
     try {
         const username = req.params.id;
-        const user = await User.findOne({name: username});
+        const user = await User.findOne({name: username}); //{Merlin}
         const id = await user.id;
         
-        const currentUser = await User.findOne(req.user);
+        const currentUser = await User.findOne(req.user); //{Viktor}
         const currentId = await currentUser.id;
         console.log(user, id, currentUser, currentId);
 
@@ -180,7 +182,10 @@ router.post ("/:id/follow", requireLogin, async (req, res, next) => {
         // check that your ID does not match the ID of the user you want to track
         if (currentId === id) {
             errors.push({msg : "You cannot monitor yourself"})
-        };
+        }
+        if (!req.user) {
+            errors.push({msg : "You need to login!"})
+        }
 
         if(errors.length > 0){
             res.render("userPosts", {
@@ -198,9 +203,9 @@ router.post ("/:id/follow", requireLogin, async (req, res, next) => {
         } else {
             if (!currentUser.following.includes(id)) {
               // viktor get following
-                await user.updateOne({ $push: { followers: currentUser } });
+                await user.update({ $push: { followers: currentId } });
               //merlin get followers
-                await currentUser.updateOne({ $push: { following: user } });
+                await currentUser.update({ $push: { following: id } });
                 res.redirect(`/user/${username}`);
             } else {
                 res.redirect(`/user/${username}`);
@@ -220,11 +225,7 @@ router.post ("/:id/unfollow", requireLogin, async (req, res, next) => {
         const currentUser = await User.findOne(req.user);
         const currentId = await currentUser.id;
         console.log(user, id, currentUser, currentId);
-        let errors = [];
-        // check that your ID does not match the ID of the user you want to unsubscribe from
-        if (currentId === id) {
-            errors.push({msg : "You cannot unsubscribe"})
-        }
+        
         if (currentUser.following.includes(id)) {
             await user.updateOne({ $pull: { followers: currentId } });
             await currentUser.updateOne({ $pull: { following: id } });

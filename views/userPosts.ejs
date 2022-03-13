@@ -13,20 +13,16 @@
         <p><span style="font-weight: bold; color: #808080">FIRST NAME: </span> <%= firstName %></p>
         <p><span style="font-weight: bold; color: #808080">LAST NAME: </span> <%= lastName %></p>
         <%- include ("partials/messages.ejs") %>
-        <% if( user.followers.includes(currentUser.id)){ %>
-            <div>
-                <form action="/user/<%= username%>/unfollow" method="POST">
-                    <button>Unfollow</button>
-                </form>
-            </div>
-        <% } else {%>
-            <div>
-                <form action="/user/<%= username%>/follow" method="POST">
-                    <button>Follow</button>
-                </form>
-            </div>
-        <%}%> 
-        
+        <div>
+            <form action="/user/<%= username%>/unfollow" method="POST">
+                <button>Unfollow</button>
+            </form>
+        </div>
+        <div>
+            <form action="/user/<%= username%>" method="POST">
+                <button>Follow</button>
+            </form>
+        </div>
     </div>
 </div>
 <div style="margin-top: 100px; text-align: center;">

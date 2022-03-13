@@ -8,7 +8,7 @@ const postSchema = new mongoose.Schema({
     },
     createdAt: {
         type: String,
-        immutable: true,
+        immutable: true, //Immutable data cannot be changed once created
         default: () => moment().format("YYYY-MM-DD, HH:mm:ss"),
     },
     user: { 

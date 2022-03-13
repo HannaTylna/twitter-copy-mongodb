@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
 const userSchema  = new mongoose.Schema({
     name :{
@@ -23,10 +24,22 @@ const userSchema  = new mongoose.Schema({
         type: String, 
         default: "img_default.png"
     },
-    following: [{ 
-        type: Array,
-        "default": []
-    }]
+    following: [
+        {
+            user:{ 
+                type: Schema.ObjectId, 
+                ref: 'User' 
+            },
+        }
+    ],
+    followers: [
+        {
+            user:{ 
+                type: Schema.ObjectId, 
+                ref: 'User' 
+            },
+        }
+    ],
 });
 
 const User = mongoose.model("User", userSchema);

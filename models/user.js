@@ -28,7 +28,7 @@ const userSchema  = new mongoose.Schema({
         type: ObjectId, 
         ref: 'User' 
     }],
-    following: [{
+    followers: [{
         type: ObjectId, 
         ref: 'User' 
     }],

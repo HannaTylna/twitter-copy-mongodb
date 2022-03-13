@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+//const Schema = mongoose.Schema;
 
 const userSchema  = new mongoose.Schema({
     name :{
@@ -27,7 +27,7 @@ const userSchema  = new mongoose.Schema({
     following: [
         {
             user:{ 
-                type: Schema.ObjectId, 
+                type: mongoose.Schema.ObjectId, 
                 ref: 'User' 
             },
         }
@@ -35,7 +35,7 @@ const userSchema  = new mongoose.Schema({
     followers: [
         {
             user:{ 
-                type: Schema.ObjectId, 
+                type: mongoose.Schema.ObjectId, 
                 ref: 'User' 
             },
         }

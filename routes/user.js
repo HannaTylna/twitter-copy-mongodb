@@ -31,17 +31,23 @@ const requireLogin = (req, res, next) => {
 };
 
 router.get("/", requireLogin, async (req, res) => {
-    
-    const posts = await Post.find()
-        .sort({ createdAt: -1});
-    if(req.user){
+    const userId = req.user.following;
+    const user = await User.find({_id: userId});
+    // const posts = await Post.find({user: user.name})
+    //     .sort({ createdAt: -1});
+        console.log(userId, user)
+    if (user === null) {
+        res.render("user.ejs", {
+            user: req.user,
+        });
+    } else {
+        const posts = await Post.find()
+            .sort({ createdAt: -1});
         res.render("userPage.ejs", {
             posts,
             user: req.user,
 
         });
-    } else{
-        res.redirect("/login");
     }
 });
 

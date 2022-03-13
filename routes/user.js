@@ -48,11 +48,15 @@ router.get("/", requireLogin, async (req, res) => {
 router.get("/profile", requireLogin, async (req, res, next) => {
     try{
         const posts = await Post.find().sort({ createdAt: -1 });
+        const following = req.user.following;
+        const followers = req.user.followers;
+        console.log(following , followers, req.user)
         res.render("userInfo", { 
             posts: posts,
             user: req.user, // send the user information data to the web page
             image: req.user.img,
-            following: req.user.following
+            following: req.user.following,
+            followers: req.user.followers
         })
     } catch (err) {
         next(err);
@@ -177,6 +181,7 @@ router.post ("/:id/follow",  async (req, res, next) => {
         const firstName = await user.firstName;
         const lastName = await user.lastName;
         const email = await user.email;
+        
         let errors = [];
 
         // check that your ID does not match the ID of the user you want to track

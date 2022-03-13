@@ -1,35 +1,47 @@
 <%- include ("./partials/navbar.ejs") %> 
+
 <div class="info">
     <div class="info__back">
-        <a href="/posts" class="form__link  info__link">Back</a>
+        <a href="/user" class="form__link  info__link">Back</a>
     </div>
     
-    <div style="text-align: left; margin-left: 100px;">
-        <h1><%= userPosts[userPosts.length-1].user %>'s Profile</h1>
-        <img src="<%= userPosts[userPosts.length-1].image %>" alt="A user photo" height="100px">
-        <p><span style="font-weight: bold; color: #808080">NAME: </span><%= userPosts[userPosts.length-1].user %></p>
-        <p><span style="font-weight: bold; color: #808080">EMAIL: </span> <%= userPosts[userPosts.length-1].email %></p>
-        <p><span style="font-weight: bold; color: #808080">FIRST NAME: </span> <%= userPosts[userPosts.length-1].firstName %></p>
-        <p><span style="font-weight: bold; color: #808080">LAST NAME: </span> <%= userPosts[userPosts.length-1].lastName %></p>
+    <div class="info__user">
+        <h1><%= username %>'s Profile</h1>
+        <img src="/<%= img %>" alt="A user photo" height="100px">
+        <p><span style="font-weight: bold; color: #808080">NAME: </span><%= username %></p>
+        <p><span style="font-weight: bold; color: #808080">EMAIL: </span> <%= email %></p>
+        <p><span style="font-weight: bold; color: #808080">FIRST NAME: </span> <%= firstName %></p>
+        <p><span style="font-weight: bold; color: #808080">LAST NAME: </span> <%= lastName %></p>
+        <% if( user.followers.includes(currentUser.id)){ %>
+            <div>
+                <form action="/user/unfollow/<%= username%>" method="POST">
+                    <button>Unfollow</button>
+                </form>
+            </div>
+        <% } else {%>
+            <div>
+                <form action="/user/follow/<%= username%>" method="POST">
+                    <button>Follow</button>
+                </form>
+            </div>
+        <%}%> 
         
-        <div style="margin-top: 20px;">
-            <form action="/user/<%=userPosts[userPosts.length-1].user%>" method="POST">
-                <button type="submit" style="font-size: 18px; padding: 5px; font-weight: bold;">Follow</button>
-            </form>
-    </div>
     </div>
 </div>
-<div style="text-align: center; margin: 50px 100px;">
-    <h2><%= userPosts[userPosts.length-1].user %>'s posts</h2>
-
-    <% userPosts.forEach( (post) =>{%>
-        <div style="padding: 20px; text-align: left;">
-            <img src="/<%= post.image %>" alt="A user photo" height="50px" >
-            <span style="font-weight: bold; color: #808080; text-transform: uppercase;"><%= post.user %> </span> <%= post.createdAt %> <br />
-            <div style="margin-top: 10px; padding: 20px; background-color: #c9c5c5; text-align: justify; color: #000">
-                <%= post.content %> 
-            </div>
-        </div>
-        <hr>
-    <%})%>  
+<div style="margin-top: 100px; text-align: center;">
+    <h2><%= username %>'s posts</h2>
+    <div style="margin: 50px 100px">
+        <% posts.forEach( (post) =>{%>
+            <% if (post.user === username) { %>
+                <div style="padding: 20px; text-align: left;">
+                    <img src="/<%= post.image %>" alt="A user photo" height="50px" >
+                    <span style="font-weight: bold; color: #808080; text-transform: uppercase;"><%= post.user %> </span><%= post.dateString %><br />
+                    <div style="margin-top: 10px; padding: 20px; background-color: #c9c5c5; text-align: justify; color: #000">
+                        <%= post.content %> 
+                    </div>
+                </div>
+                <hr>
+            <% } %>
+        <%})%>  
+    </div>
 </div>

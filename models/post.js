@@ -12,20 +12,21 @@ const postSchema = new mongoose.Schema({
         default: () => moment().format("YYYY-MM-DD, HH:mm:ss"),
     },
     user: { 
-        type: String 
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
     },
-    image: { 
-        type: String 
-    },
-    email: { 
-        type: String 
-    },
-    firstName: {
-        type: String 
-    },
-    lastName: { 
-        type: String 
-    }
+    // image: { 
+    //     type: String 
+    // },
+    // email: { 
+    //     type: String 
+    // },
+    // firstName: {
+    //     type: String 
+    // },
+    // lastName: { 
+    //     type: String 
+    // }
 });
 
 const Post = mongoose.model("Post", postSchema);

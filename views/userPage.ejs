@@ -1,5 +1,12 @@
 <div class="main">
+    <%- include ("./partials/nav.ejs") %> 
     <div class="main__centercolumn">
+        <div>
+            <div class="main__info">
+                <p style="color: #499edf; font-weight: bold; font-size: 24px;">Hello, <%= name %> </p>
+                <img src="/<%= image %>" alt="A user photo" height="50px">
+            </div>
+        </div>
         <div class="main__post">
             <h2>Create a post</h2>
             <%- include ("partials/messages.ejs") %>
@@ -11,8 +18,8 @@
         <div>
             <% posts.forEach( (post) =>{%>
                 <div style="padding: 20px;">
-                    <a href="/user/<%= post.user%>"><img src="/<%= post.image %>" alt="A user photo" height="50px" ></a>
-                    <a class="user__link" href="/user/<%= post.user%>"><%= post.user %></a>  <%= post.createdAt %> <br />
+                    <a href="/user/<%= post.user._id%>"><img src="/<%= post.user.img %>" alt="A user photo" height="50px" ></a>
+                    <a class="user__link" href="/user/<%= post.user._id%>"><%= post.user.name %></a>  <%= post.createdAt %> <br />
                     <div style="margin-top: 10px; padding: 20px; background-color: #c9c5c5; text-align: justify; color: #000">
                         <%= post.content %> 
                     </div>
@@ -20,22 +27,6 @@
                 <hr>
             <%})%>  
         </div>
-        
     </div>
-    <div class="main__rightcolumn">
-        <div>
-            <p style="color: #499edf; font-weight: bold; font-size: 24px;">Hello, <%= user.name %> </p>
-        </div>
-        <div class="main__links">
-            <div style="margin-top: 20px">
-                <a href="/user/profile" class="info__link main__link">Profile</a>
-            </div>
-            <div style="margin-top: 20px">
-                <a href="/posts" class="info__link main__link">Posts</a>
-            </div>
-            <div style="margin-top: 20px">
-                <a href="/logout" class="info__link main__link">Logout</a>
-            </div>
-        </div>
-    </div>
+    
 </div>

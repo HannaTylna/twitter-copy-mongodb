@@ -1,31 +1,35 @@
 .main {
     display: flex;
+    margin-top: 50px;
 }
-.main__rightcolumn{
-    width: 35%;
-    padding-top: 50px;
+.main__info{
+    display: flex;
 }
-.main__centercolumn{
-    width: 60%;
+.main__info img{
+    margin: -20px 0px 20px 20px;
+}
+.main__nav{
+    width: 20%;
+    margin-left: 50px;
+}
+.main__column{
+    width: 80%;
     padding-top: 50px;
     margin-left: 100px;
 }
-
-.main__rightcolumn{
-    padding-right: 30px;
-    text-align: right;
+.nav__list{
+    list-style: none;
 }
-.main__links{
-    margin-top: 20px;
+.nav__list li{
+    margin: 10px auto;
 }
-.main__link{
+.nav__link{
     text-decoration: none;
-    text-transform: uppercase;
-    font-size: 12px;
-    font-weight: bold;
-}
-.main__link:hover{
     color: #fff;
+    font-size: 18px;
+}
+.nav__link:active{
+    font-weight: bold;
 }
 .user__link{
     text-decoration: none;

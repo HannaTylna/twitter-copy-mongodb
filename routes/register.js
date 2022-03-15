@@ -7,10 +7,10 @@ router.get("/",(req,res)=>{
     res.render("register")
 });
 
-
   //register post handle
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
     const {name, email, password, firstName, lastName} = req.body;
+    
     let errors = [];
     console.log(" Name " + name + " pass:" + password);
     if(!name || !password) {
@@ -21,14 +21,15 @@ router.post("/", (req, res) => {
     if(password.length < 6 ) {
         errors.push({msg : "Password at least 6 characters"})
     }
+
+    const userExist = await User.findOne({name});
+    if(userExist){
+        errors.push({msg : "User already registered"})
+    }
+
     if(errors.length > 0 ) {
         res.render("register", {
             errors : errors,
-            name : name,
-            password : password,
-            email : email,
-            firstName : firstName,
-            lastName : lastName
         })
     } else {
         //validation passed
@@ -36,25 +37,18 @@ router.post("/", (req, res) => {
             console.log(user);   
             if(user) {
                 errors.push({msg: "User already registered"});
-                res.render("register", {errors, name, email, password, firstName, lastName})  
+                res.render("register", {errors})  
             } else {
-            const newUser = new User({
-                name : name,
-                email : email,
-                password : password,
-                firstName: firstName,
-                lastName: lastName
-            });
-
+            const user = new User({ name, password: password, email, firstName, lastName});
             //hash password
             bcrypt.genSalt(10,(err,salt) => 
-                bcrypt.hash(newUser.password, salt,
+                bcrypt.hash(user.password, salt,
                     (err,hash) => {
                         if(err) throw err;
                             //save pass to hash
-                            newUser.password = hash;
+                            user.password = hash;
                         //save user
-                        newUser.save()
+                        user.save()
                         .then((value)=>{
                             console.log(value)
                             req.flash("success_msg", "You have now registered!");

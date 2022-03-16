@@ -1,38 +1,38 @@
-<%- include ("./partials/navbar.ejs") %> 
-
-<div class="info">
-    <div class="info__back">
-        <a href="/user" class="form__link  info__link">Back</a>
-    </div>
-    
-    <div class="info__user">
-        <h1><%= username %>'s Profile</h1>
-        <img src="/<%= img %>" alt="A user photo" height="100px">
-        <p><span style="font-weight: bold; color: #808080">NAME: </span><%= username %></p>
-        <p><span style="font-weight: bold; color: #808080">EMAIL: </span> <%= email %></p>
-        <p><span style="font-weight: bold; color: #808080">FIRST NAME: </span> <%= firstName %></p>
-        <p><span style="font-weight: bold; color: #808080">LAST NAME: </span> <%= lastName %></p>
-        <%- include ("partials/messages.ejs") %>
-        <div>
-            <form action="/user/<%= username%>/unfollow" method="POST">
-                <button>Unfollow</button>
-            </form>
-        </div>
-        <div>
-            <form action="/user/<%= username%>/follow" method="POST">
-                <button>Follow</button>
-            </form>
+<div class="main">
+    <%- include ("./partials/nav.ejs") %> 
+    <div class="info">            
+        <div class="info__user">
+            <h1 class="center"><%= user.name %>'s Profile</h1>
+            <img 
+                src="/<%= user.img %>" 
+                alt="A user photo"
+                height="100px"
+                style="margin-top: 20px; margin-bottom: 20px;"
+            />
+            <p class="m-tb"><span style="font-weight: bold; color: #808080">NAME: </span><%= user.name %></p>
+            <p class="m-tb"><span style="font-weight: bold; color: #808080">EMAIL: </span> <%= user.email %></p>
+            <p class="m-tb"><span style="font-weight: bold; color: #808080">FIRST NAME: </span> <%= user.firstName %></p>
+            <p class="m-tb"><span style="font-weight: bold; color: #808080">LAST NAME: </span> <%= user.lastName %></p>
+            <%- include ("partials/messages.ejs") %>
+            <div class="btn-follow">
+                <form action="/user/<%= user._id%>/unfollow" method="POST">
+                    <button class="btn">Unfollow</button>
+                </form>
+                <form action="/user/<%= user._id%>/follow" method="POST">
+                    <button class="btn">Follow</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>
 <div style="margin-top: 100px; text-align: center;">
-    <h2><%= username %>'s posts</h2>
+    <h1><%= user.name %>'s posts</h1>
     <div style="margin: 50px 100px">
         <% posts.forEach( (post) =>{%>
-            <% if (post.user === username) { %>
+            <% if (post.creator.name === user.name) { %>
                 <div style="padding: 20px; text-align: left;">
-                    <img src="/<%= post.image %>" alt="A user photo" height="50px" >
-                    <span style="font-weight: bold; color: #808080; text-transform: uppercase;"><%= post.user %> </span><%= post.dateString %><br />
+                    <img src="/<%= post.creator.img %>" alt="A user photo" height="50px" >
+                    <span style="font-weight: bold; color: #808080; text-transform: uppercase;"><%= post.creator.name %> </span><%= post.createdAt %><br />
                     <div style="margin-top: 10px; padding: 20px; background-color: #c9c5c5; text-align: justify; color: #000">
                         <%= post.content %> 
                     </div>

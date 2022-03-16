@@ -8,8 +8,11 @@ router.get("/", async (req, res) => {
         .sort({ createdAt: -1})
         .populate("creator")
         .exec();
-    
-    res.render("postPage.ejs", {posts})
+    if(req.user){
+        res.render("postUserPage.ejs", {posts})
+    } else{
+        res.render("postPublicPage.ejs", {posts})
+    }
 });
 
 

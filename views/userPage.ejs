@@ -1,10 +1,15 @@
 <div class="main">
     <%- include ("./partials/nav.ejs") %> 
-    <div class="main__centercolumn">
+    <div class="main__column">
         <div>
             <div class="main__info">
                 <p style="color: #499edf; font-weight: bold; font-size: 24px;">Hello, <%= name %> </p>
-                <img src="/<%= image %>" alt="A user photo" height="50px">
+                <img 
+                    src="/<%= image %>" 
+                    alt="A user photo" 
+                    height="50px"
+                    class="rounded"
+                />
             </div>
         </div>
         <div class="main__post">

@@ -1,56 +1,57 @@
 
-<div class="info">
-    <div class="info__back">
-        <a href="/user" class="form__link  info__link">Back</a>
+<div class="main">
+    <%- include ("./partials/nav.ejs") %> 
+    <div class="info">
+        <div class="info__user">
+            <h1 class="center">User Profile</h1>
+            <img 
+                src="/<%= user.img %>" 
+                alt="A user photo" 
+                height="100px"
+                style="margin-top: 20px; margin-bottom: 20px;"
+            />
+            <p class="m-tb" ><span style="font-weight: bold; color: #808080">NAME: </span><%= user.name %></p>
+            <p class="m-tb"><span style="font-weight: bold; color: #808080">EMAIL: </span> <%= user.email %></p>
+            <p class="m-tb"><span style="font-weight: bold; color: #808080">FIRST NAME: </span> <%= user.firstName %></p>
+            <p class="m-tb"><span style="font-weight: bold; color: #808080">LAST NAME: </span> <%= user.lastName %></p>
+    
+            <p class="m-tb"><span style="font-weight: bold; color: #808080">Following:</span>  <%= user.following.length%> person(s) </p>
+            <p class="m-tb"><span style="font-weight: bold; color: #808080"> Followers:</span> <%= user.followers.length%> person(s) </p>
+            
+        </div>
+        <div class="info__update">
+            <h1 class="center m-tb">Update user profile</h1>
+            <form action="/user/upload" method="POST" enctype="multipart/form-data">
+                <h2  class="center m-tb">Photo upload</h2>
+                <input name="file" type="file">
+                <button type="submit" class="btn">Upload file</button>
+            </form>
+            
+            <form action="/user/update" method="POST">
+                First name: <input type="text" name="firstName"><br/><br/>
+                Last name: <input type="text" name="lastName"><br/><br/>
+                Email: <input type="email" name="email"><br/><br/>
+                <div class="form__button">
+                    <button type="submit" class="btn">Update</button>
+                </div>
+            </form>
+        </div>
     </div>
     
-    <div class="info__user">
-        <h1>User Profile</h1>
-        <img src="/<%= user.img %>" alt="A user photo" height="100px">
-        <p><span style="font-weight: bold; color: #808080">NAME: </span><%= user.name %></p>
-        <p><span style="font-weight: bold; color: #808080">EMAIL: </span> <%= user.email %></p>
-        <p><span style="font-weight: bold; color: #808080">FIRST NAME: </span> <%= user.firstName %></p>
-        <p><span style="font-weight: bold; color: #808080">LAST NAME: </span> <%= user.lastName %></p>
-
-        <p><span style="font-weight: bold; color: #808080">Following:</span>  <%= user.following.length%> person(s) </p>
-        <p><span style="font-weight: bold; color: #808080"> Followers:</span> <%= user.followers.length%> person(s) </p>
-        
-    </div>
-    <div class="info__update">
-        <h1>Update user profile</h1>
-
-        <h2>Photo upload</h2>
-        <form action="/user/upload" method="POST" enctype="multipart/form-data">
-            <input name="file" type="file">
-            <button type="submit">Upload file</button>
-        </form>
-        
-        <form action="/user/update" method="POST">
-            First name: <input type="text" name="firstName"><br/><br/>
-            Last name: <input type="text" name="lastName"><br/><br/>
-            Email: <input type="email" name="email"><br/><br/>
-            <button type="submit">Update</button>
-            <div class="info__logout" >
-                <a href="/logout" class="form__link  info__link">Logout</a>
-            </div>
-        </form>
-    </div>
 </div>
 <div style="margin-top: 100px; text-align: center;">
     <h2>My posts</h2>
     <div style="margin: 50px 100px">
         <% posts.forEach( (post) =>{%>
-            <% if (post.user === user.name) { %>
                 <div style="padding: 20px; text-align: left;">
-                    <img src="/<%= post.image %>" alt="A user photo" height="50px" >
-                    <span style="font-weight: bold; color: #808080; text-transform: uppercase;"><%= post.user %> </span><%= post.createdAt %><br />
+                    <img src="/<%= post.creator.img %>" alt="A user photo" height="50px" >
+                    <span style="font-weight: bold; color: #808080; text-transform: uppercase;"><%= post.creator.name %> </span><%= post.createdAt %><br />
                     <div style="margin-top: 10px; padding: 20px; background-color: #c9c5c5; text-align: justify; color: #000">
                         <%= post.content %> 
                     </div>
                     
                 </div>
                 <hr>
-            <% } %>
         <%})%>  
     </div>
 </div>

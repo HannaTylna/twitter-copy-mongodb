@@ -171,7 +171,7 @@ router.post ("/:userId/follow",  async (req, res, next) => {
         let errors = [];
 
         // check that your ID does not match the ID of the user you want to track
-        if (currentUser._id === id) {
+        if (currentUser._id == id) {
             errors.push({msg : "You cannot monitor yourself"})
         }
         if (!req.user) {
@@ -179,15 +179,17 @@ router.post ("/:userId/follow",  async (req, res, next) => {
         }
 
         if(errors.length > 0){
-            res.render("userPosts", { errors, user, posts, currentUser })
+            res.render("userPosts", { errors, user, posts, currentUser, posts })
         } else {
             if (!currentUser.following.includes(id)) {
               // viktor get following
                 await user.updateOne({ $push: { followers: currentUser._id } });
               //merlin get followers
                 await currentUser.updateOne({ $push: { following: id } });
+                req.flash("success_msg", `Now you follow ${user.name}`);
                 res.redirect(`/user/${id}`);
             } else {
+                req.flash("success_msg", `You have already follow ${user.name}`);
                 res.redirect(`/user/${id}`);
             }
         }
@@ -196,22 +198,31 @@ router.post ("/:userId/follow",  async (req, res, next) => {
     }
 })
 
-router.post ("/:id/unfollow", requireLogin, async (req, res, next) => {
+router.post ("/:userId/unfollow", requireLogin, async (req, res, next) => {
     try {
-        const username = req.params.id;
-        const user = await User.findOne({name: username});
-        const id = await user.id;
-        
+        const id = req.params.userId;
+        const user = await User.findOne({_id: id});
         const currentUser = await User.findOne(req.user);
-        const currentId = await currentUser.id;
-        console.log(user, id, currentUser, currentId);
-        
-        if (currentUser.following.includes(id)) {
-            await user.updateOne({ $pull: { followers: currentId } });
-            await currentUser.updateOne({ $pull: { following: id } });
-            res.redirect(`/user/${username}`);
+        let errors = [];
+
+        const posts = await Post.find({creator: id})
+            .sort({ createdAt: -1 });
+
+        if (currentUser._id == id) {
+            errors.push({msg : "You can't unfollow yourself"})
+        }
+        if(errors.length > 0){
+            res.render("userPosts", { errors, user, posts, currentUser })
         } else {
-            res.redirect(`/user/${username}`);
+            if (currentUser.following.includes(id)) {
+                await user.updateOne({ $pull: { followers: currentUser._id } });
+                await currentUser.updateOne({ $pull: { following: id } });
+                req.flash("success_msg", `Now you unfollow ${user.name}`);
+                res.redirect(`/user/${id}`);
+            } else {
+                req.flash("success_msg", `You have already unfollow ${user.name}`);
+                res.redirect(`/user/${id}`);
+            }
         }
     } catch (error) {
         next(error)

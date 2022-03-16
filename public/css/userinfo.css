@@ -1,7 +1,6 @@
 .info {
     display: flex;
-    text-align: left;
-    margin-top: 100px;
+    width: 80%;
 }
 .info__back{
     width: 10%;
@@ -22,9 +21,16 @@
 .info__link:hover{
     background: #808080;
 }
-.info__logout{
-    margin-top: 20px;
+.form__button{
+    margin: 0 auto;
 }
+.btn{
+    padding: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px auto;
+}
+
 @media (max-width: 768px){
     .info{
         display: block;

@@ -18,7 +18,16 @@ html, body {
 .wrapper {
     overflow: hidden;
 }
-
+.m-tb{
+    margin-top: 10px; 
+    margin-bottom: 10px;
+}
+.center{
+    text-align: center;
+}
+.rounded{
+    border-radius: 30px;
+}
 .container {
     max-width: 1440px;
     margin: 0px auto 0px auto; /* 0px top */

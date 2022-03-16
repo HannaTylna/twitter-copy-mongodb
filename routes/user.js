@@ -31,24 +31,39 @@ const requireLogin = (req, res, next) => {
 };
 
 router.get("/", requireLogin, async (req, res) => {
-    const userId = req.user.following;
-    const user = await User.find({_id: userId});
-    // const posts = await Post.find({user: user.name})
-    //     .sort({ createdAt: -1});
-        console.log(userId, user)
-    if (user === null) {
-        res.render("user.ejs", {
-            user: req.user,
-        });
-    } else {
-        const posts = await Post.find()
-            .sort({ createdAt: -1});
-        res.render("userPage.ejs", {
-            posts,
-            user: req.user,
+    const currentUser = req.user._id;
+    const followings = req.user.following; 
+    const followingIds = followings.map((f) => f.toString());
+    const posts = await Post.find({ creator: followingIds})
+        .sort({ createdAt: -1})
+        .populate("creator")
+        .exec();
+    console.log(currentUser, followings, followingIds, posts);
+    res.render("userPage.ejs", {
+        posts,
+        name: req.user.name,
+        image: req.user.img
 
-        });
-    }
+    });
+    // const user = await User.find({_id: userId});
+    // // const posts = await Post.find({user: user.name})
+    // //     .sort({ createdAt: -1});
+    //     console.log(userId, user)
+    // if (user === null) {
+    //     res.render("user.ejs", {
+    //         user: req.user,
+    //     });
+    // } else {
+    //     const posts = await Post.find({})
+    //         .sort({ createdAt: -1})
+    //         .populate("user")
+    //         .exec();
+    //     res.render("userPage.ejs", {
+    //         posts,
+    //         user: req.user,
+
+    //     });
+    // }
 });
 
 router.get("/profile", requireLogin, async (req, res, next) => {
@@ -105,30 +120,32 @@ router.get("/:userId", async (req, res, next) => {
 
 router.post("/", requireLogin, async (req, res, next) => {
     try {
-        const user = req.user.name;
-        const { content } = req.body;
-        const image = req.user.img;
-        const email = req.user.email;
-        const firstName = req.user.firstName;
-        const lastName = req.user.lastName;
-
-        const post = new Post({ content , user, image, email, firstName, lastName})
+        const username = req.user.name;
+        const user = await User.findOne({name: username});
+        const post = new Post({ 
+            content: req.body.content , 
+            creator: user._id 
+        })
         console.log(post);
         let errors = [];
-        if(!content){
+        if(!post.content){
             errors.push({msg: "* You need to write something"});
             console.log(errors);
         }
-        if (content.length > 140){
+        if (post.content.length > 140){
             errors.push({msg: "* You can write max 140 letters"});
             console.log(errors)
         }
         if (errors.length > 0){
-            const posts = await Post.find().sort({ createdAt: -1 });
+            const posts = await Post.find({creator: user._id })
+                .sort({ createdAt: -1 })
+                .populate("creator")
+                .exec();
             res.render("userPage.ejs", {
                 errors: errors,
                 posts: posts,
-                user: req.user,
+                name: req.user.name,
+                image: req.user.img
             })
         } else {
             await post.save()

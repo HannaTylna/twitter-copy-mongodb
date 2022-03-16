@@ -68,16 +68,18 @@ router.get("/", requireLogin, async (req, res) => {
 
 router.get("/profile", requireLogin, async (req, res, next) => {
     try{
-        const posts = await Post.find().sort({ createdAt: -1 });
+        const user = await User.findOne({name: req.user.name});
+        const posts = await Post.find({creator: user._id})
+            .sort({ createdAt: -1 })
+            .populate("creator")
+            .exec();
+            
         const following = req.user.following;
         const followers = req.user.followers;
-        console.log(following , followers, req.user)
+        console.log(following , followers, posts, user)
         res.render("userInfo", { 
-            posts: posts,
-            user: req.user, // send the user information data to the web page
-            image: req.user.img,
-            following: req.user.following,
-            followers: req.user.followers
+            posts,
+            user, // send the user information data to the web page
         })
     } catch (err) {
         next(err);

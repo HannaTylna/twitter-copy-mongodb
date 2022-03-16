@@ -43,27 +43,7 @@ router.get("/", requireLogin, async (req, res) => {
         posts,
         name: req.user.name,
         image: req.user.img
-
     });
-    // const user = await User.find({_id: userId});
-    // // const posts = await Post.find({user: user.name})
-    // //     .sort({ createdAt: -1});
-    //     console.log(userId, user)
-    // if (user === null) {
-    //     res.render("user.ejs", {
-    //         user: req.user,
-    //     });
-    // } else {
-    //     const posts = await Post.find({})
-    //         .sort({ createdAt: -1})
-    //         .populate("user")
-    //         .exec();
-    //     res.render("userPage.ejs", {
-    //         posts,
-    //         user: req.user,
-
-    //     });
-    // }
 });
 
 router.get("/profile", requireLogin, async (req, res, next) => {
@@ -89,33 +69,20 @@ router.get("/profile", requireLogin, async (req, res, next) => {
 
 router.get("/:userId", async (req, res, next) => {
     try{
-        const username = req.params.userId;
-        const user = await User.findOne({name: username});
-        const img = await user.img;
-        const firstName = await user.firstName;
-        const lastName = await user.lastName;
-        const email = await user.email;
-        console.log(username, user);
-        const currentUser = await User.find(req.user);
-        const currentId = await currentUser.id;
-        const posts = await Post.find({user: username})
-            .sort({ createdAt: -1 });
-            console.log(posts, user, currentUser,img, firstName, lastName, email);
+        const postUser = req.params.userId;
+        const user = await User.findOne({_id: postUser});
+        const currentUser = await User.findOne(req.user);
+        const posts = await Post.find({creator: postUser})
+            .sort({ createdAt: -1 })
+            .populate("creator")
+            .exec();
+        //console.log(postUser, user, currentUser, posts);
         res.render("userPosts", { 
-            user,
-            posts: posts,
-            username,
-            img,
-            firstName, 
-            lastName,
-            email,
-            currentUser, 
-            currentId
+            user, currentUser, posts
         })
     } catch (err) {
         next(err);
     }
-    
 });
 
 
@@ -190,27 +157,21 @@ router.post("/upload", requireLogin,  upload.single("file"), (req, res, next) =>
     }
 });
 
-router.post ("/:id/follow",  async (req, res, next) => {
+router.post ("/:userId/follow",  async (req, res, next) => {
     try {
-        const username = req.params.id;
-        const user = await User.findOne({name: username}); //{Merlin}
-        const id = await user.id;
+        const id = req.params.userId;
+        const user = await User.findOne({_id: id}); 
         
-        const currentUser = await User.findOne(req.user); //{Viktor}
-        const currentId = await currentUser.id;
-        console.log(user, id, currentUser, currentId);
+        const currentUser = await User.findOne(req.user); 
+        //console.log(user, id, currentUser);
 
-        const posts = await Post.find({user: username})
+        const posts = await Post.find({creator: id})
             .sort({ createdAt: -1 });
-        const img = await user.img;
-        const firstName = await user.firstName;
-        const lastName = await user.lastName;
-        const email = await user.email;
         
         let errors = [];
 
         // check that your ID does not match the ID of the user you want to track
-        if (currentId === id) {
+        if (currentUser._id === id) {
             errors.push({msg : "You cannot monitor yourself"})
         }
         if (!req.user) {
@@ -218,27 +179,16 @@ router.post ("/:id/follow",  async (req, res, next) => {
         }
 
         if(errors.length > 0){
-            res.render("userPosts", {
-                errors: errors,
-                user,
-                posts: posts,
-                username,
-                img,
-                firstName, 
-                lastName,
-                email,
-                currentUser,
-                currentId
-            })
+            res.render("userPosts", { errors, user, posts, currentUser })
         } else {
             if (!currentUser.following.includes(id)) {
               // viktor get following
-                await user.update({ $push: { followers: currentId } });
+                await user.updateOne({ $push: { followers: currentUser._id } });
               //merlin get followers
-                await currentUser.update({ $push: { following: id } });
-                res.redirect(`/user/${username}`);
+                await currentUser.updateOne({ $push: { following: id } });
+                res.redirect(`/user/${id}`);
             } else {
-                res.redirect(`/user/${username}`);
+                res.redirect(`/user/${id}`);
             }
         }
     } catch (error) {

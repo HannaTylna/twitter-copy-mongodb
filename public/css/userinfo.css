@@ -1,16 +1,16 @@
 .info {
     display: flex;
-    width: 80%;
+    width: 60%;
+    text-align: center;
+    justify-content: center;
 }
 .info__back{
     width: 10%;
     margin: 50px; 
 }
-.info__user{
-    width: 35%;
-}
 .info__update{
     width: 55%;
+    margin-top: 50px;
 }
 .info__link{
     background: #fff;
@@ -30,19 +30,25 @@
     font-weight: bold;
     margin: 10px auto;
 }
+.btn-follow{
+    display: flex; 
+    justify-content: space-between;
+}
 
 @media (max-width: 768px){
     .info{
         display: block;
         text-align: center;
         overflow: hidden;
+        width: 80%;
     }
     .info__user{
-        width: 100%;
-        margin-bottom: 50px;
+        width: 80%;
     }
     .info__update{
         width: 100%;
     }
-    
+    .btn-follow{
+        justify-content: space-around;
+    }
 };

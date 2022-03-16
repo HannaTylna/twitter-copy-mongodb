@@ -11,7 +11,7 @@ const postSchema = new mongoose.Schema({
         immutable: true, //Immutable data cannot be changed once created
         default: () => moment().format("YYYY-MM-DD, HH:mm:ss"),
     },
-    user: { 
+    creator: { 
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     },

@@ -5,6 +5,7 @@ const path = require("path");
 
 const { User } = require("../models/user");
 const { Post } = require("../models/post");
+const { Tag } = require("../models/tag");
 const console = require("console");
 
 
@@ -91,9 +92,22 @@ router.post("/", requireLogin, async (req, res, next) => {
     try {
         const username = req.user.name;
         const user = await User.findOne({name: username});
+        const hashtags = req.body.content.match(/#[^\s#]*/g);
+        const tags = await Tag.find({});
+        if (hashtags) {
+            //const newTags = hashtags.filter(tag => tag._id === undefined && tag.name);
+            const hashtagText = hashtags.map(tag => tag.slice(1).toLowerCase()); //const result = hashtags.map(tag => tag.replace(/#[^\s#]*/g, ""));
+            const tag = new Tag({name: hashtagText});
+            //tag.save();
+            console.log( hashtags, hashtagText, tags, tag );
+            tags.push({_id: tag.id});
+            //tag.save();
+            //await post.addHashtags(result.map((ans) => ans[0]));
+        }
         const post = new Post({ 
             content: req.body.content , 
-            creator: user._id 
+            creator: user._id,
+            tags
         })
         console.log(post);
         let errors = [];
@@ -117,8 +131,8 @@ router.post("/", requireLogin, async (req, res, next) => {
                 image: req.user.img
             })
         } else {
-            await post.save()
-            res.redirect("/user")
+            //await post.save()
+            //res.redirect("/user")
         } 
     } catch (err) {
         next(err);

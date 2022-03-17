@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 const moment = require("moment");
 
 const postSchema = new mongoose.Schema({
-
     content: { 
         type: String
     },
@@ -15,18 +14,10 @@ const postSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     },
-    // image: { 
-    //     type: String 
-    // },
-    // email: { 
-    //     type: String 
-    // },
-    // firstName: {
-    //     type: String 
-    // },
-    // lastName: { 
-    //     type: String 
-    // }
+    tags: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Tag"
+    }]
 });
 
 const Post = mongoose.model("Post", postSchema);

@@ -94,22 +94,17 @@ router.post("/", requireLogin, async (req, res, next) => {
         const user = await User.findOne({name: username});
         const hashtags = req.body.content.match(/#[^\s#]*/g);
         const tags = await Tag.find({});
-        if (hashtags) {
-            //const newTags = hashtags.filter(tag => tag._id === undefined && tag.name);
-            const hashtagText = hashtags.map(tag => tag.slice(1).toLowerCase()); //const result = hashtags.map(tag => tag.replace(/#[^\s#]*/g, ""));
-            const tag = new Tag({name: hashtagText});
-            //tag.save();
-            console.log( hashtags, hashtagText, tags, tag );
-            tags.push({_id: tag.id});
-            //tag.save();
-            //await post.addHashtags(result.map((ans) => ans[0]));
-        }
+        const hashtagText = hashtags.map(tag => tag.slice(1).toLowerCase());
+        const tag = await new Tag({name: hashtagText});
+        tags.push({_id: tag.id});
+        //console.log( hashtags, hashtagText, tags, tag );
+        
         const post = new Post({ 
             content: req.body.content , 
             creator: user._id,
             tags
         })
-        console.log(post);
+        //console.log(post);
         let errors = [];
         if(!post.content){
             errors.push({msg: "* You need to write something"});
@@ -128,11 +123,12 @@ router.post("/", requireLogin, async (req, res, next) => {
                 errors: errors,
                 posts: posts,
                 name: req.user.name,
-                image: req.user.img
+                image: req.user.img,
             })
         } else {
-            //await post.save()
-            //res.redirect("/user")
+            await post.save()
+            await tag.save()
+            res.redirect("/user")
         } 
     } catch (err) {
         next(err);

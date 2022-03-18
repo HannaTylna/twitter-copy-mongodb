@@ -38,7 +38,7 @@ router.get("/", requireLogin, async (req, res) => {
     const posts = await Post.find({ creator: followingIds})
         .sort({ createdAt: -1})
         .populate("creator")
-        .exec();
+        .exec();  
     console.log(currentUser, followings, followingIds, posts);
     res.render("userPage.ejs", {
         posts,
